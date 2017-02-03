@@ -8,7 +8,7 @@ The tool creates the following graph in the Neo4j database:
 
 ![Alt text](https://g.gravizo.com/g?
  digraph mg {
-   K=6;
+   rankdir=LR;
    Resource -> Resource [label="CHILD"];
    Resource -> Attribute [label="HAS_ATTRIBUTE"];
    Attribute -> Attribute [label="REQUIRES"];
