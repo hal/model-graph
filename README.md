@@ -1,6 +1,6 @@
 # WildFly Model Graph
 
-Tool which reads the management model from a WildFly instance and stores it in a [Neo4j](https://neo4j.com/) database. If not specified otherwise the tool will start at the root resource and read the resource descriptions in a recursive way. 
+Tool which reads the management model from a WildFly instance and stores it in a [Neo4j](https://neo4j.com/) database. If not specified otherwise the tool starts at the root resource and reads the resource descriptions in a recursive way. 
 
 ## Graph
 
@@ -29,46 +29,54 @@ The resource holds the fully qualified address and the name of the resource. The
     | /subsystem=mail/mail-session=default/server=imap | server=imap |
 
 1. Attribute  
-The attribute stores most of the attribute's metadata taken from the r-r-d operation
+The attribute stores most of the attribute's metadata taken from the r-r-d operation.
 
 1. Capability  
 Holds just the name of the capability. 
 
-Operations are not yet covered, but could easily be integrated. 
+See the Neo4j console for a complete list of nodes, relations and properties. 
  
 ## Get Started
 
-In order to run the tool, you need a running WildFly and Neo4j instance. The tool understands the following command line options:
+In order to run the tool, you need a running WildFly and Neo4j instance. Use one of the following options to connect to your WildFly and Neo4j instance:
 
-```sh
+```
 Usage: <main class> [options]
+
   Options:
     -help, --help
       Shows this help
+
     -neo4j
       Neo4j database as <server>[:<port>] with 7687 as default port. Omit to 
       connect to a local Neo4j database at localhost:7687.
+
     -neo4j-password
       Neo4j password
       Default: neo4j
+
     -neo4j-user
       Neo4j username
       Default: neo4j
+
     -resource
       The root resource to analyse.
       Default: /
+
     -wildfly
       WildFly instance as <server>[:<port>] with 9990 as default port. Omit to 
       connect to a local WildFly instance at localhost:9990.
+
     -wildfly-password
       WildFly password
       Default: admin
+
     -wildfly-user
       WildFly username
       Default: admin
 ```
 
-After running the tool head to http://localhost:7474/browser/ and enter some queries. 
+If everything runs locally using the default ports you don't need to specify any option. After the tool has finished, head to [http://localhost:7474/browser/](http://localhost:7474/browser/) and enter some queries. 
 
 ## Examples
 
