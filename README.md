@@ -6,16 +6,24 @@ Tool which reads the management model from a WildFly instance and stores it in a
 
 The tool creates the following graph in the Neo4j database:
 
-<img src='http://g.gravizo.com/g?
+![Alt text](https://g.gravizo.com/g?
  digraph G {
-   Resource -> Resource [ label=CHILD ];
-   Resource -> Attribute [ label=HAS_ATTRIBUTE ];
-   Attribute -> Attribute [ label=REQUIRES ];
-   Attribute -> Attribute [ label=ALTERNATIVE ];
-   Resource -> Capability [ label=DECLARES_CAPABILITY ];
-   Attribute -> Capability [ label=REFERENCES_CAPABILITY ];
+   Resource -> Resource [label="CHILD"];
+   Resource -> Attribute [label="HAS_ATTRIBUTE"];
+   Attribute -> Attribute [label="REQUIRES"];
+   Attribute -> Attribute [label="ALTERNATIVE"];
+   Resource -> Capability [label="DECLARES_CAPABILITY"];
+   Attribute -> Capability [label="REFERENCES_CAPABILITY"];
  }
-'/>
+)
+
+There are three main nodes in the database:
+
+1. Resource
+
+1. Attribute
+
+1. Capability
  
 ## Get Started
 
