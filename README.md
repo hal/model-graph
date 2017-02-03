@@ -121,4 +121,25 @@ WHERE exists(a.deprecated)
 RETURN r.address, a.name, a.since
 ```
 
+Both required and nillable attributes with their allternatives:
+
+```cypher
+MATCH (r:Resource)-->(a:Attribute)-[:ALTERNATIVE]-(alt) 
+WHERE a.required = true AND 
+      a.nillable = true AND 
+      a.storage = "configuration"
+RETURN r.address, a.name, alt.name
+```
+
+Both required and nillable attributes which don't have alternatives (should return no results!)
+
+```cypher
+MATCH (r:Resource)-->(a:Attribute)
+WHERE NOT (a)-[:ALTERNATIVE]-()  AND 
+      a.required = true AND 
+      a.nillable = true AND 
+      a.storage = "configuration"
+RETURN r.address, a.name
+```
+
 See https://neo4j.com/docs/cypher-refcard/current/ for a quick reference to the Cypher query language. 
