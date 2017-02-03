@@ -9,7 +9,7 @@ The tool creates the following graph in the Neo4j database:
 ![Alt text](https://g.gravizo.com/g?
  digraph mg {
    rankdir=LR;
-   Resource -> Resource [label="CHILD"];
+   Resource -> Resource [label="CHILD_OF"];
    Resource -> Attribute [label="HAS_ATTRIBUTE"];
    Attribute -> Attribute [label="REQUIRES"];
    Attribute -> Attribute [label="ALTERNATIVE"];
@@ -20,13 +20,16 @@ The tool creates the following graph in the Neo4j database:
 
 There are three main nodes in the database:
 
-1. Resource  
-The resource holds the fully qualified address and the name of the resource. The name of a resource is the resource type. For singleton resources the name consists of the type and the name: 
+1. Resource
+    
+    The resource holds the fully qualified address and the name of the resource. The name of a resource is the resource type. For singleton resources the name consists of the type and the name: 
 
     | Address                                          | Name        |
     |--------------------------------------------------|-------------|
     | /subsystem=datasources/data-source=*             | data-source |
     | /subsystem=mail/mail-session=default/server=imap | server=imap |
+    
+    Parent resources have a `CHILD_OF` relationship with their children. This makes traversing through the model tree very convenient.
 
 1. Attribute  
 The attribute stores most of the attribute's metadata taken from the r-r-d operation.
@@ -97,6 +100,14 @@ MATCH g=(r:Resource)-->(:Attribute)-[:REQUIRES]->(:Attribute)
 RETURN g
 ```
 
+Show all `data-source` resource trees:
+
+```cypher
+MATCH g=(r:Resource)-[:CHILD_OF*..10]->()
+WHERE r.name = "data-source"
+RETURN g
+```
+
 List all resources and attributes which are part of an attribute group:
 
 ```cypher
@@ -105,7 +116,7 @@ WHERE exists(a.`attribute-group`)
 RETURN r.address, a.name, a.`attribute-group`
 ```
 
-List all complex attributes (i.e. attributes with a value type other than STRING):
+List all complex attributes (i.e. attributes with a value type other than `STRING`):
 
 ```cypher
 MATCH (r:Resource)-->(a:Attribute) 
@@ -121,7 +132,7 @@ WHERE exists(a.deprecated)
 RETURN r.address, a.name, a.since
 ```
 
-Both required and nillable attributes with their allternatives:
+List attributes which are both required and nillable together with their alternatives:
 
 ```cypher
 MATCH (r:Resource)-->(a:Attribute)-[:ALTERNATIVE]-(alt) 
@@ -131,7 +142,7 @@ WHERE a.required = true AND
 RETURN r.address, a.name, alt.name
 ```
 
-Both required and nillable attributes which don't have alternatives (should return no results!)
+List attributes which are both required and nillable attributes and which don't have alternatives (should return no results!)
 
 ```cypher
 MATCH (r:Resource)-->(a:Attribute)
@@ -142,4 +153,4 @@ WHERE NOT (a)-[:ALTERNATIVE]-()  AND
 RETURN r.address, a.name
 ```
 
-See https://neo4j.com/docs/cypher-refcard/current/ for a quick reference to the Cypher query language. 
+See https://neo4j.com/docs/cypher-refcard/current/ for a quick reference of the Cypher query language. 
