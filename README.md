@@ -79,7 +79,13 @@ Usage: <main class> [options]
       Default: admin
 ```
 
-If everything runs locally using the default ports you don't need to specify any option. After the tool has finished, head to [http://localhost:7474/browser/](http://localhost:7474/browser/) and enter some queries. 
+If everything runs locally using the default ports you just need to run 
+
+```bash
+java -jar model-graph-0.0.1.jar
+```
+
+After the tool has finished, head to [http://localhost:7474/browser/](http://localhost:7474/browser/) and enter some queries. 
 
 ## Examples
 

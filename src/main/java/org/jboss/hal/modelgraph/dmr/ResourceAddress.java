@@ -86,7 +86,7 @@ public class ResourceAddress extends ModelNode {
 
     @Override
     public String toString() {
-        // Do not change implementation, it's used as an identifier in neo4j!
+        // Do not change implementation, it's used in neo4j!
         StringBuilder builder = new StringBuilder();
         if (isDefined()) {
             builder.append("/");

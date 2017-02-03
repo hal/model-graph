@@ -22,16 +22,16 @@ import static org.jboss.hal.modelgraph.dmr.ModelDescriptionConstants.*;
 /**
  * @author Harald Pehl
  */
-class ModelParser {
+class Analyzer {
 
     private static final int MAX_DEPTH = 10;
-    private static final Logger logger = LoggerFactory.getLogger(ModelParser.class);
+    private static final Logger logger = LoggerFactory.getLogger(Analyzer.class);
 
     private final WildFlyClient wc;
     private final Neo4jClient nc;
     private long[] resources;
 
-    ModelParser(final WildFlyClient wc, final Neo4jClient nc) {
+    Analyzer(final WildFlyClient wc, final Neo4jClient nc) {
         this.wc = wc;
         this.nc = nc;
         this.resources = new long[2]; // [0] = failed, [1] = successful
@@ -70,7 +70,7 @@ class ModelParser {
                 }
             }
 
-            createResource(address, resourceDescription);
+            createResource(address);
             if (parent != null) {
                 mergeChildOf(address, parent);
             }
@@ -137,7 +137,7 @@ class ModelParser {
 
     // ------------------------------------------------------ neo4j
 
-    private void createResource(ResourceAddress address, ModelNode resource) {
+    private void createResource(ResourceAddress address) {
         Cypher cypher = new Cypher("CREATE (:Resource {")
                 .append(NAME, address.getName()).comma()
                 .append(ADDRESS, address.toString()).comma()

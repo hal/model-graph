@@ -62,9 +62,9 @@ public class Main {
              Neo4jClient nc = new Neo4jClient(safeHostAndPort(neo4j, 7687), neo4jUsername, neo4jPassword)) {
 
             // start with resource and store metadata into neo4j database
-            ModelParser parser = new ModelParser(wc, nc);
-            parser.start(resource);
-            finished(parser, nc);
+            Analyzer analyzer = new Analyzer(wc, nc);
+            analyzer.start(resource);
+            finished(analyzer, nc);
 
         } catch (Exception e) {
             logger.error(e.getMessage(), e);
@@ -84,9 +84,9 @@ public class Main {
     }
 
 
-    private void finished(ModelParser parser, Neo4jClient nc) {
-        logger.info("{} resources successfully processed.", String.format("%,d", parser.getSuccessfulResources()));
-        logger.info("{} resources could not be processed.", String.format("%,d", parser.getFailedResources()));
+    private void finished(Analyzer analyzer, Neo4jClient nc) {
+        logger.info("{} resources successfully processed.", String.format("%,d", analyzer.getSuccessfulResources()));
+        logger.info("{} resources could not be processed.", String.format("%,d", analyzer.getFailedResources()));
         logger.info("{} nodes and {} relations have been created.",
                 String.format("%,d", nc.getNodesCreated()), String.format("%,d", nc.getRelationsCreated()));
         logger.info("Use the web interface at {} to query the database.", nc.getWebInterface());
