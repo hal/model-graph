@@ -19,11 +19,21 @@ The tool creates the following graph in the Neo4j database:
 
 There are three main nodes in the database:
 
-1. Resource
+1. Resource  
+The resource holds the fully qualified address and the name of the resource. The name of a resource is the resource type. For singleton resources the name consists of the type and the name: 
 
-1. Attribute
+    | Address                                          | Name        |
+    |--------------------------------------------------|-------------|
+    | /subsystem=datasources/data-source=*             | data-source |
+    | /subsystem=mail/mail-session=default/server=imap | server=imap |
 
-1. Capability
+1. Attribute  
+The attribute stores most of the attribute's metadata taken from the r-r-d operation
+
+1. Capability  
+Holds just the name of the capability. 
+
+Operations are not yet covered, but could easily be integrated. 
  
 ## Get Started
 
@@ -57,9 +67,11 @@ Usage: <main class> [options]
       Default: admin
 ```
 
+After running the tool head to http://localhost:7474/browser/ and enter some queries. 
+
 ## Examples
 
-Here are a few examples what to do with the collected data:
+Here are a few examples what you can do with the collected data:
 
 Show the `alternatives` and `requires` relations of the `connection-definitions` resource:
 
