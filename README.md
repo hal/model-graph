@@ -22,7 +22,7 @@ There are three main nodes in the database:
 
 1. Resource
     
-    The resource holds the fully qualified address and the name of the resource. The name of a resource is the resource type. For singleton resources the name consists of the type and the name: 
+    The resource node holds the fully qualified address and the name of the resource. The name of a resource is the resource type. For singleton resources the name consists of the type and the name: 
 
     | Address                                          | Name        |
     |--------------------------------------------------|-------------|
@@ -32,12 +32,12 @@ There are three main nodes in the database:
     Parent resources have a `CHILD_OF` relationship with their children. This makes traversing through the model tree very convenient.
 
 1. Attribute  
-The attribute stores most of the attribute's metadata taken from the r-r-d operation.
+The attribute node holds most of the attribute's metadata such as type, required or storage. 
 
 1. Capability  
-Holds just the name of the capability. 
+The capability node holds just the name of the capability. 
 
-See the Neo4j console for a complete list of nodes, relations and properties. 
+See the Neo4j console for the complete list of nodes, relations and properties. 
  
 ## Get Started
 
