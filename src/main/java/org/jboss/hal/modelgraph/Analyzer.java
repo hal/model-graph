@@ -2,10 +2,12 @@ package org.jboss.hal.modelgraph;
 
 import java.util.Collections;
 import java.util.List;
+import java.util.Set;
 import java.util.function.Function;
 
 import com.google.common.collect.ArrayListMultimap;
 import com.google.common.collect.Multimap;
+import com.google.common.collect.Sets;
 import org.jboss.dmr.ModelNode;
 import org.jboss.dmr.ModelType;
 import org.jboss.hal.modelgraph.dmr.Operation;
@@ -26,6 +28,30 @@ class Analyzer {
 
     private static final int MAX_DEPTH = 10;
     private static final Logger logger = LoggerFactory.getLogger(Analyzer.class);
+    private static final Set<String> GLOBAL_OPERATIONS = Sets.newHashSet(
+            // ADD is treated special: Although it's a global operation, each resource has a different add operation
+            // with different request parameters
+            LIST_ADD,
+            LIST_CLEAR,
+            LIST_GET,
+            LIST_REMOVE,
+            MAP_CLEAR,
+            MAP_GET,
+            MAP_PUT,
+            MAP_REMOVE,
+            READ_ATTRIBUTE,
+            READ_ATTRIBUTE_GROUP,
+            READ_ATTRIBUTE_GROUP_NAMES,
+            READ_CHILDREN_NAMES,
+            READ_CHILDREN_RESOURCES,
+            READ_CHILDREN_TYPES,
+            READ_OPERATION_DESCRIPTION,
+            READ_OPERATION_NAMES,
+            READ_RESOURCE_DESCRIPTION,
+            READ_RESOURCE,
+            REMOVE,
+            UNDEFINE_ATTRIBUTE,
+            WRITE_ATTRIBUTE);
 
     private final WildFlyClient wc;
     private final Neo4jClient nc;
@@ -54,7 +80,7 @@ class Analyzer {
     }
 
     private void parseResource(ResourceAddress address, ResourceAddress parent) {
-        Operation rrd = new Operation.Builder(READ_RESOURCE_DESCRIPTION_OPERATION, address)
+        Operation rrd = new Operation.Builder(READ_RESOURCE_DESCRIPTION, address)
                 .param(INCLUDE_ALIASES, true)
                 .build();
 
@@ -114,8 +140,19 @@ class Analyzer {
                 alternatives.entries().forEach(entry ->
                         mergeAttributeRelation(address, entry.getKey(), entry.getValue(), "-[:ALTERNATIVE]-"));
                 requires.entries().forEach(entry ->
-                        mergeAttributeRelation(address, entry.getKey(), entry.getValue(),"-[:REQUIRES]->"));
+                        mergeAttributeRelation(address, entry.getKey(), entry.getValue(), "-[:REQUIRES]->"));
             }
+
+            // operations NYI
+/*
+            if (resourceDescription.hasDefined(OPERATIONS)) {
+                resourceDescription.get(OPERATIONS).asPropertyList().forEach(property -> {
+                    String name = property.getName();
+                    ModelNode operation = property.getValue();
+                });
+            }
+*/
+
             resources[1]++;
         } else {
             resources[0]++;
@@ -123,7 +160,7 @@ class Analyzer {
     }
 
     private List<String> readChildren(ResourceAddress address) {
-        Operation rct = new Operation.Builder(READ_CHILDREN_TYPES_OPERATION, address)
+        Operation rct = new Operation.Builder(READ_CHILDREN_TYPES, address)
                 .param(INCLUDE_SINGLETONS, true)
                 .build();
 

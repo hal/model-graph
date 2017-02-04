@@ -1,10 +1,10 @@
 # WildFly Model Graph
 
-Tool which reads the management model from a WildFly instance and stores it in a [Neo4j](https://neo4j.com/) database. If not specified otherwise the tool starts at the root resource and reads the resource descriptions in a recursive way. 
+Tool which reads the management model from a WildFly instance and stores it as a graph in a [Neo4j](https://neo4j.com/) database. If not specified otherwise the tool starts at the root resource and reads the resource descriptions in a recursive way. 
 
 ## Graph
 
-The tool creates the following graph in the Neo4j database:
+The tool creates the following graph:
 
 ![Alt text](https://g.gravizo.com/g?
  digraph mg {
@@ -18,7 +18,7 @@ The tool creates the following graph in the Neo4j database:
  }
 )
 
-There are three main nodes in the database:
+There are three main nodes in the graph:
 
 1. Resource
     
@@ -32,16 +32,16 @@ There are three main nodes in the database:
     Parent resources have a `CHILD_OF` relationship with their children. This makes traversing through the model tree very convenient.
 
 1. Attribute  
-The attribute node holds most of the attribute's metadata such as type, required or storage. 
+The attribute node holds most of the attribute's metadata such as type, required, nillable or storage. 
 
 1. Capability  
 The capability node holds just the name of the capability. 
 
-See the Neo4j console for the complete list of nodes, relations and properties. 
+Operations are not yet part of the graph, but could easily be added. See the Neo4j browser for the complete list of nodes, relations and properties. 
  
 ## Get Started
 
-In order to run the tool, you need a running WildFly and Neo4j instance. Use one of the following options to connect to your WildFly and Neo4j instance:
+To get started, you need a running WildFly and Neo4j instance. You can specify the WildFly and Neo4j instance using one of the command line options:
 
 ```
 Usage: <main class> [options]
@@ -79,13 +79,15 @@ Usage: <main class> [options]
       Default: admin
 ```
 
-If everything runs locally using the default ports you just need to run 
+If everything runs locally using the default ports, you just need to run 
 
 ```bash
 java -jar model-graph-0.0.1.jar
 ```
 
-After the tool has finished, head to [http://localhost:7474/browser/](http://localhost:7474/browser/) and enter some queries. 
+The tool will populate the Neo4j instance with nodes, relations and properties of the specified resource (sub)tree. Please make sure the Neo4j instance is empty. If you have nodes of a previous run or other data, this might distort the queries. 
+
+If you want to analyse different management model versions, you need to setup multiple Neo4j instances and point the tool to the relevant instance. After the tool has finished, head to [http://localhost:7474/browser/](http://localhost:7474/browser/) and enter some queries. 
 
 ## Examples
 
@@ -114,12 +116,42 @@ WHERE r.name = "data-source"
 RETURN g
 ```
 
-List all resources and attributes which are part of an attribute group:
+List all attributes which have a capability reference to `org.wildfly.network.socket-binding`:
 
 ```cypher
-MATCH (r:Resource)-->(a:Attribute) 
-WHERE exists(a.`attribute-group`)
-RETURN r.address, a.name, a.`attribute-group`
+MATCH (r:Resource)-->(a:Attribute)-[:REFERENCES_CAPABILITY]->(c:Capability)
+WHERE c.name = "org.wildfly.network.socket-binding"
+RETURN r.address, a.name
+```
+
+List all attributes which match the regexp `.*socket-binding.*`, but do not have a capability reference
+
+```cypher
+MATCH (r:Resource)-->(a:Attribute)
+WHERE a.name =~ ".*socket-binding.*" AND 
+      NOT (a)-[:REFERENCES_CAPABILITY]-()
+RETURN r.address, a.name
+```
+
+List all attributes which are both required and nillable together with their alternatives:
+
+```cypher
+MATCH (r:Resource)-->(a:Attribute)-[:ALTERNATIVE]-(alt) 
+WHERE a.required = true AND 
+      a.nillable = true AND 
+      a.storage = "configuration"
+RETURN r.address, a.name, alt.name
+```
+
+List all attributes which are both required and nillable, but which don't have alternatives (should return no results!)
+
+```cypher
+MATCH (r:Resource)-->(a:Attribute)
+WHERE NOT (a)-[:ALTERNATIVE]-()  AND 
+      a.required = true AND 
+      a.nillable = true AND 
+      a.storage = "configuration"
+RETURN r.address, a.name
 ```
 
 List all complex attributes (i.e. attributes with a value type other than `STRING`):
@@ -136,27 +168,6 @@ List all deprecated attributes:
 MATCH (r:Resource)-->(a:Attribute) 
 WHERE exists(a.deprecated)
 RETURN r.address, a.name, a.since
-```
-
-List attributes which are both required and nillable together with their alternatives:
-
-```cypher
-MATCH (r:Resource)-->(a:Attribute)-[:ALTERNATIVE]-(alt) 
-WHERE a.required = true AND 
-      a.nillable = true AND 
-      a.storage = "configuration"
-RETURN r.address, a.name, alt.name
-```
-
-List attributes which are both required and nillable attributes and which don't have alternatives (should return no results!)
-
-```cypher
-MATCH (r:Resource)-->(a:Attribute)
-WHERE NOT (a)-[:ALTERNATIVE]-()  AND 
-      a.required = true AND 
-      a.nillable = true AND 
-      a.storage = "configuration"
-RETURN r.address, a.name
 ```
 
 See https://neo4j.com/docs/cypher-refcard/current/ for a quick reference of the Cypher query language. 

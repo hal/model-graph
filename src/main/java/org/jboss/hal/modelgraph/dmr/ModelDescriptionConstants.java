@@ -46,6 +46,7 @@ public interface ModelDescriptionConstants {
 
     // KEEP THESE IN ALPHABETICAL ORDER!
     String ACCESS_TYPE = "access-type";
+    String ADD = "add";
     String ADDRESS = "address";
     String ALIAS = "alias";
     String ALTERNATIVES = "alternatives";
@@ -67,19 +68,38 @@ public interface ModelDescriptionConstants {
     String INCLUDE_ALIASES = "include-aliases";
     String INCLUDE_SINGLETONS = "include-singletons";
 
+    String LIST_ADD = "list-add";
+    String LIST_CLEAR = "list-clear";
+    String LIST_GET = "list-get";
+    String LIST_REMOVE = "list-remove";
+
     String MAX = "max";
+    String MAP_CLEAR = "map-clear";
+    String MAP_GET = "map-get";
+    String MAP_PUT = "map-put";
+    String MAP_REMOVE = "map-remove";
     String MIN = "min";
 
     String NAME = "name";
     String NILLABLE = "nillable";
 
     String OP = "operation";
+    String OPERATIONS = "operations";
     String OUTCOME = "outcome";
 
     String PARENT = "parent";
 
-    String READ_CHILDREN_TYPES_OPERATION = "read-children-types";
-    String READ_RESOURCE_DESCRIPTION_OPERATION = "read-resource-description";
+    String READ_ATTRIBUTE = "read-attribute";
+    String READ_ATTRIBUTE_GROUP = "read-attribute-group";
+    String READ_ATTRIBUTE_GROUP_NAMES = "read-attribute-group-names";
+    String READ_CHILDREN_NAMES = "read-children-names";
+    String READ_CHILDREN_RESOURCES = "read-children-resources";
+    String READ_CHILDREN_TYPES = "read-children-types";
+    String READ_OPERATION_DESCRIPTION = "read-operation-description";
+    String READ_OPERATION_NAMES = "read-operatrion-names";
+    String READ_RESOURCE_DESCRIPTION = "read-resource-description";
+    String READ_RESOURCE = "read-resource";
+    String REMOVE = "remove";
     String REQUIRED = "required";
     String REQUIRES = "requires";
     String RESTART_REQUIRED = "restart-required";
@@ -92,8 +112,11 @@ public interface ModelDescriptionConstants {
 
     String TYPE = "type";
 
+    String UNDEFINE_ATTRIBUTE = "undefine-attribute";
     String UNIT = "unit";
 
     String VALUE_TYPE = "value-type";
+
+    String WRITE_ATTRIBUTE = "write-attribute";
 }
 
