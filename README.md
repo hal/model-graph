@@ -107,6 +107,8 @@ If you want to analyse different management model versions, you need to setup mu
 
 Here are a few examples what you can do with the collected data:
 
+### Resources & Relationships
+
 Show the `alternatives` and `requires` relations of the `connection-definitions` resource:
 
 ```cypher
@@ -129,6 +131,8 @@ MATCH g=(r:Resource)-[:CHILD_OF*..10]->()
 WHERE r.name = "data-source"
 RETURN g
 ```
+
+### Attributes
 
 List all attributes which have a capability reference to `org.wildfly.network.socket-binding`:
 
@@ -182,6 +186,28 @@ List all deprecated attributes:
 MATCH (r:Resource)-->(a:Attribute) 
 WHERE exists(a.deprecated)
 RETURN r.address, a.name, a.since
+```
+
+### Operations
+
+List all non-global operations with more than five operations:
+ 
+```cypher
+MATCH (r:Resource)-[p:PROVIDES]->(o:Operation)
+WHERE NOT o.global
+WITH r, count(p) as operations
+WHERE operations > 5
+RETURN r.address, operations
+```
+
+List all `add` operation with more than two required parameters:
+
+```cypher
+MATCH (r:Resource)-[:PROVIDES]->(o:Operation)-[a:ACCEPTS]->(p:Parameter)
+WHERE NOT o.name = "add" AND p.required
+WITH r, o, count(a) as parameters
+WHERE parameters > 2
+RETURN r.address, o.name, parameters
 ```
 
 See https://neo4j.com/docs/cypher-refcard/current/ for a quick reference of the Cypher query language. 
