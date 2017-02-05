@@ -92,7 +92,7 @@ class Analyzer {
 
         ModelNode resourceDescription = wc.execute(rrd);
         if (resourceDescription.isDefined()) {
-            logger.info("Parse {}", address.toString());
+            logger.info("Read {}", address.toString());
 
             // for a foo=* address, the result is an array
             if (resourceDescription.getType() == ModelType.LIST) {
@@ -222,7 +222,7 @@ class Analyzer {
     }
 
 
-    // ------------------------------------------------------ neo4j
+    // ------------------------------------------------------ neo4j - resources
 
     private void createResource(ResourceAddress address) {
         Cypher cypher = new Cypher("CREATE (:Resource {")
@@ -242,6 +242,8 @@ class Analyzer {
         nc.execute(cypher);
     }
 
+    // ------------------------------------------------------ neo4j - capability
+
     private void mergeCapabilities(ResourceAddress address, String capability) {
         Cypher cypher = new Cypher("MATCH (r:Resource {")
                 .append(ADDRESS, address.toString()).append("})")
@@ -249,6 +251,9 @@ class Analyzer {
                 .append(NAME, capability).append("})");
         nc.execute(cypher);
     }
+
+
+    // ------------------------------------------------------ neo4j - attributes
 
     private void mergeAttribute(ResourceAddress address, String name, ModelNode attribute) {
         Cypher cypher = new Cypher("MATCH (r:Resource {")
@@ -301,12 +306,15 @@ class Analyzer {
         nc.execute(cypher);
     }
 
+
+    // ------------------------------------------------------ neo4j - operations
+
     private void mergeOperation(ResourceAddress address, String name, ModelNode operation, boolean globalOperation) {
         Cypher cypher = new Cypher("MATCH (r:Resource {")
                 .append(ADDRESS, address.toString()).append("})")
                 .append(" MERGE (r)-[:PROVIDES]->(o:Operation {")
                 .append(NAME, name).comma()
-                .append(GLOBAL, globalOperation);
+                .append(GLOBAL, globalOperation || ADD.equals(name)); // add is a global operation!
 
         addIfPresent(cypher, READ_ONLY, operation, ModelNode::asBoolean);
         addIfPresent(cypher, RUNTIME_ONLY, operation, ModelNode::asBoolean);

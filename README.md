@@ -8,17 +8,21 @@ The tool creates the following graph:
 
 ![Alt text](https://g.gravizo.com/g?
  digraph mg {
-   rankdir=LR;
    Resource -> Resource [label="CHILD_OF"];
+   Resource -> Capability [label="DECLARES_CAPABILITY"];
    Resource -> Attribute [label="HAS_ATTRIBUTE"];
    Attribute -> Attribute [label="REQUIRES"];
    Attribute -> Attribute [label="ALTERNATIVE"];
-   Resource -> Capability [label="DECLARES_CAPABILITY"];
    Attribute -> Capability [label="REFERENCES_CAPABILITY"];
+   Resource -> Operation [label="PROVIDES"];
+   Operation -> Parameter [label="ACCEPTS"];
+   Parameter -> Parameter [label="REQUIRES"];
+   Parameter -> Parameter [label="ALTERNATIVE"];
+   Parameter -> Capability [label="REFERENCES_CAPABILITY"];
  }
 )
 
-There are three main nodes in the graph:
+There are five main nodes in the graph:
 
 1. Resource
     
@@ -31,13 +35,23 @@ There are three main nodes in the graph:
     
     Parent resources have a `CHILD_OF` relationship with their children. This makes traversing through the model tree very convenient.
 
-1. Attribute  
-The attribute node holds most of the attribute's metadata such as type, required, nillable or storage. 
+1. Attribute
 
-1. Capability  
-The capability node holds just the name of the capability. 
+    The attribute node holds most of the attribute's metadata such as type, required, nillable or storage. 
 
-Operations are not yet part of the graph, but could easily be added. See the Neo4j browser for the complete list of nodes, relations and properties. 
+1. Operation
+
+    The operation node holds information about an operation. Global operations are stored only once (except the `add` operation). Use the flag `global` to distinguish between global and resource dependent operations.
+
+1. Parameter
+
+    The parameter node holds information about the request properties and has similar properties as the `attribute` node.
+
+1. Capability
+  
+    The capability node holds just the name of the capability. 
+
+See the Neo4j browser for the complete list of nodes, relations and properties. 
  
 ## Get Started
 
