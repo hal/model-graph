@@ -29,6 +29,11 @@ public class Neo4jClient implements AutoCloseable {
         driver = GraphDatabase.driver(uri, AuthTokens.basic(username, password));
         webInterface = "http://" + hostAndPort.getHost() + ":7474/browser/";
         logger.info("Connected to Neo4j database at {}", hostAndPort);
+        createIndex();
+    }
+
+    private void createIndex() {
+
     }
 
     public void execute(Cypher cypher) {

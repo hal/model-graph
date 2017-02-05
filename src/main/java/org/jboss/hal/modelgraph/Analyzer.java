@@ -1,6 +1,6 @@
 package org.jboss.hal.modelgraph;
 
-import java.util.Collections;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.function.Function;
@@ -18,6 +18,7 @@ import org.jboss.hal.modelgraph.neo4j.Neo4jClient;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import static java.util.Collections.emptyList;
 import static java.util.stream.Collectors.toList;
 import static org.jboss.hal.modelgraph.dmr.ModelDescriptionConstants.*;
 
@@ -39,6 +40,7 @@ class Analyzer {
             MAP_GET,
             MAP_PUT,
             MAP_REMOVE,
+            QUERY,
             READ_ATTRIBUTE,
             READ_ATTRIBUTE_GROUP,
             READ_ATTRIBUTE_GROUP_NAMES,
@@ -51,16 +53,19 @@ class Analyzer {
             READ_RESOURCE,
             REMOVE,
             UNDEFINE_ATTRIBUTE,
+            WHOAMI,
             WRITE_ATTRIBUTE);
 
     private final WildFlyClient wc;
     private final Neo4jClient nc;
     private long[] resources;
+    private final Set<String> missingGlobalOperations;
 
     Analyzer(final WildFlyClient wc, final Neo4jClient nc) {
         this.wc = wc;
         this.nc = nc;
         this.resources = new long[2]; // [0] = failed, [1] = successful
+        this.missingGlobalOperations = new HashSet<>(GLOBAL_OPERATIONS);
     }
 
     void start(final String resource) {
@@ -82,6 +87,7 @@ class Analyzer {
     private void parseResource(ResourceAddress address, ResourceAddress parent) {
         Operation rrd = new Operation.Builder(READ_RESOURCE_DESCRIPTION, address)
                 .param(INCLUDE_ALIASES, true)
+                .param(OPERATIONS, true)
                 .build();
 
         ModelNode resourceDescription = wc.execute(rrd);
@@ -143,15 +149,59 @@ class Analyzer {
                         mergeAttributeRelation(address, entry.getKey(), entry.getValue(), "-[:REQUIRES]->"));
             }
 
-            // operations NYI
-/*
+            // operations
             if (resourceDescription.hasDefined(OPERATIONS)) {
-                resourceDescription.get(OPERATIONS).asPropertyList().forEach(property -> {
-                    String name = property.getName();
-                    ModelNode operation = property.getValue();
+                resourceDescription.get(OPERATIONS).asPropertyList().forEach(op -> {
+                    String name = op.getName();
+                    ModelNode operation = op.getValue();
+                    boolean globalOperation = GLOBAL_OPERATIONS.contains(name);
+                    boolean create = !globalOperation || missingGlobalOperations.contains(name);
+
+                    if (create) {
+                        mergeOperation(address, name, operation, globalOperation);
+                        if (operation.hasDefined(REQUEST_PROPERTIES)) {
+                            Multimap<String, String> alternatives = ArrayListMultimap.create();
+                            Multimap<String, String> requires = ArrayListMultimap.create();
+                            operation.get(REQUEST_PROPERTIES).asPropertyList().forEach(rp -> {
+                                String rpName = rp.getName();
+                                ModelNode requestProperty = rp.getValue();
+                                mergeRequestProperty(address, name, rpName, requestProperty);
+
+                                // collect alternatives and requires
+                                if (requestProperty.hasDefined(ALTERNATIVES)) {
+                                    List<String> a = requestProperty.get(ALTERNATIVES)
+                                            .asList()
+                                            .stream()
+                                            .map(ModelNode::asString)
+                                            .collect(toList());
+                                    alternatives.putAll(rpName, a);
+                                }
+                                if (requestProperty.hasDefined(REQUIRES)) {
+                                    List<String> r = requestProperty.get(REQUIRES)
+                                            .asList()
+                                            .stream()
+                                            .map(ModelNode::asString)
+                                            .collect(toList());
+                                    requires.putAll(rpName, r);
+                                }
+                            });
+
+                            // post process alternatives and requires
+                            alternatives.entries().forEach(entry ->
+                                    mergeRequestPropertyRelation(address, name, entry.getKey(), entry.getValue(),
+                                            "-[:ALTERNATIVE]-"));
+                            requires.entries().forEach(entry ->
+                                    mergeRequestPropertyRelation(address, name, entry.getKey(), entry.getValue(),
+                                            "-[:REQUIRES]->"));
+                        }
+                        if (globalOperation) {
+                            missingGlobalOperations.remove(name);
+                        }
+                    } else {
+                        linkGlobalOperation(address, name);
+                    }
                 });
             }
-*/
 
             resources[1]++;
         } else {
@@ -168,7 +218,7 @@ class Analyzer {
         if (result.isDefined()) {
             return result.asList().stream().map(ModelNode::asString).collect(toList());
         }
-        return Collections.emptyList();
+        return emptyList();
     }
 
 
@@ -212,29 +262,17 @@ class Analyzer {
         addIfPresent(cypher, DEFAULT, attribute, ModelNode::asString);
         addIfPresent(cypher, EXPRESSIONS_ALLOWED, attribute, ModelNode::asBoolean);
         addIfPresent(cypher, MAX, attribute, ModelNode::asLong);
+        addIfPresent(cypher, MAX_LENGTH, attribute, ModelNode::asLong);
         addIfPresent(cypher, MIN, attribute, ModelNode::asLong);
+        addIfPresent(cypher, MIN_LENGTH, attribute, ModelNode::asLong);
         addIfPresent(cypher, NILLABLE, attribute, ModelNode::asBoolean);
         addIfPresent(cypher, REQUIRED, attribute, ModelNode::asBoolean);
         addIfPresent(cypher, RESTART_REQUIRED, attribute, ModelNode::asString);
         addIfPresent(cypher, STORAGE, attribute, ModelNode::asString);
         addIfPresent(cypher, TYPE, attribute, (value -> value.asType().name()));
         addIfPresent(cypher, UNIT, attribute, ModelNode::asString);
-
-        if (attribute.hasDefined(DEPRECATED)) {
-            cypher.comma().append(DEPRECATED, true);
-            ModelNode deprecatedNode = attribute.get(DEPRECATED);
-            addIfPresent(cypher, SINCE, deprecatedNode, ModelNode::asString);
-        }
-
-        if (attribute.hasDefined(VALUE_TYPE)) {
-            ModelNode valueTypeNode = attribute.get(VALUE_TYPE);
-            try {
-                ModelType valueType = valueTypeNode.asType();
-                cypher.comma().append(VALUE_TYPE, valueType.name());
-            } catch (IllegalArgumentException e) {
-                cypher.comma().append(VALUE_TYPE, ModelType.OBJECT.name());
-            }
-        }
+        addDeprecated(cypher, attribute);
+        addValueType(cypher, attribute);
 
         cypher.append("})"); // end attribute
         if (attribute.hasDefined(CAPABILITY_REFERENCE)) {
@@ -248,21 +286,132 @@ class Analyzer {
     }
 
     private void mergeAttributeRelation(ResourceAddress address, String source, String target, String relation) {
-        final Cypher cypher = new Cypher("MATCH (r1:Resource {")
+        Cypher cypher = new Cypher("MATCH (:Resource {")
                 .append(ADDRESS, address.toString()).append("})")
                 .append("-[:HAS_ATTRIBUTE]->(source:Attribute {")
                 .append(NAME, "sourceName", source).append("}),")
-                .append("(r2:Resource {")
+
+                .append("(:Resource {")
                 .append(ADDRESS, address.toString()).append("})")
                 .append("-[:HAS_ATTRIBUTE]->(target:Attribute {")
                 .append(NAME, "targetName", target).append("})")
+
                 .append(" MERGE (source)").append(relation).append("(target)");
+
         nc.execute(cypher);
     }
 
+    private void mergeOperation(ResourceAddress address, String name, ModelNode operation, boolean globalOperation) {
+        Cypher cypher = new Cypher("MATCH (r:Resource {")
+                .append(ADDRESS, address.toString()).append("})")
+                .append(" MERGE (r)-[:PROVIDES]->(o:Operation {")
+                .append(NAME, name).comma()
+                .append(GLOBAL, globalOperation);
+
+        addIfPresent(cypher, READ_ONLY, operation, ModelNode::asBoolean);
+        addIfPresent(cypher, RUNTIME_ONLY, operation, ModelNode::asBoolean);
+
+        if (operation.hasDefined(REPLY_PROPERTIES)) {
+            ModelNode replyNode = operation.get(REPLY_PROPERTIES);
+            if (replyNode.isDefined()) {
+                addIfPresent(cypher, "return", replyNode, TYPE, (value -> value.asType().name()));
+                addValueType(cypher, replyNode);
+            }
+        }
+
+        cypher.append("})");
+        nc.execute(cypher);
+    }
+
+    private void mergeRequestProperty(ResourceAddress address, String operationName, String requestPropertyName,
+            ModelNode requestProperty) {
+        Cypher cypher = new Cypher("MATCH (r:Resource {")
+                .append(ADDRESS, address.toString())
+                .append("})-[:PROVIDES]->(o:Operation {")
+                .append(NAME, OPERATION_NAME, operationName).append("})")
+                .append(" MERGE (o)-[:ACCEPTS]->(p:Parameter {")
+                .append(NAME, requestPropertyName);
+
+        addIfPresent(cypher, EXPRESSIONS_ALLOWED, requestProperty, ModelNode::asBoolean);
+        addIfPresent(cypher, MAX, requestProperty, ModelNode::asLong);
+        addIfPresent(cypher, MAX_LENGTH, requestProperty, ModelNode::asLong);
+        addIfPresent(cypher, MIN, requestProperty, ModelNode::asLong);
+        addIfPresent(cypher, MIN_LENGTH, requestProperty, ModelNode::asLong);
+        addIfPresent(cypher, NILLABLE, requestProperty, ModelNode::asBoolean);
+        addIfPresent(cypher, REQUIRED, requestProperty, ModelNode::asBoolean);
+        addIfPresent(cypher, TYPE, requestProperty, (value -> value.asType().name()));
+        addIfPresent(cypher, UNIT, requestProperty, ModelNode::asString);
+        addDeprecated(cypher, requestProperty);
+
+        cypher.append("})"); // end parameter
+        if (requestProperty.hasDefined(CAPABILITY_REFERENCE)) {
+            String capabilityReference = requestProperty.get(CAPABILITY_REFERENCE).asString();
+            cypher.append(" MERGE (p)-[:REFERENCES_CAPABILITY]-(:Capability {")
+                    .append(NAME, CAPABILITY_REFERENCE, capabilityReference)
+                    .append("})");
+        }
+
+        nc.execute(cypher);
+    }
+
+    private void mergeRequestPropertyRelation(ResourceAddress address, String operation, String source, String target,
+            String relation) {
+        Cypher cypher = new Cypher("MATCH (:Resource {")
+                .append(ADDRESS, address.toString()).append("})")
+                .append("-[:PROVIDES]->(o:Operation {")
+                .append(NAME, OPERATION_NAME, operation).append("}),")
+
+                .append("(o)-[:ACCEPTS]->(source:Parameter {")
+                .append(NAME, "sourceName", source).append("}),")
+
+                .append("(o)-[:ACCEPTS]->(target:Parameter {")
+                .append(NAME, "targetName", target).append("})")
+
+                .append(" MERGE (source)").append(relation).append("(target)");
+
+        nc.execute(cypher);
+    }
+
+    private void linkGlobalOperation(ResourceAddress address, String operationName) {
+        Cypher cypher = new Cypher("MATCH (r:Resource {")
+                .append(ADDRESS, address.toString()).append("}),")
+                .append("(o:Operation{")
+                .append(NAME, operationName).append("})")
+                .append(" MERGE (r)-[:PROVIDES]->(o)");
+        nc.execute(cypher);
+    }
+
+
+    // ------------------------------------------------------ helper methods
+
+    private void addDeprecated(final Cypher cypher, final ModelNode modelNode) {
+        if (modelNode.hasDefined(DEPRECATED)) {
+            cypher.comma().append(DEPRECATED, true);
+            ModelNode deprecatedNode = modelNode.get(DEPRECATED);
+            addIfPresent(cypher, SINCE, deprecatedNode, ModelNode::asString);
+        }
+    }
+
+    private void addValueType(Cypher cypher, ModelNode modelNode) {
+        if (modelNode.hasDefined(VALUE_TYPE)) {
+            ModelNode valueTypeNode = modelNode.get(VALUE_TYPE);
+            try {
+                ModelType valueType = valueTypeNode.asType();
+                cypher.comma().append(VALUE_TYPE, valueType.name());
+            } catch (IllegalArgumentException e) {
+                cypher.comma().append(VALUE_TYPE, ModelType.OBJECT.name());
+            }
+        }
+    }
+
     private <T> void addIfPresent(Cypher cypher, String name, ModelNode modelNode, Function<ModelNode, T> getValue) {
-        if (modelNode.hasDefined(name)) {
-            ModelNode value = modelNode.get(name);
+        addIfPresent(cypher, name, modelNode, name, getValue);
+    }
+
+    private <T> void addIfPresent(Cypher cypher, String name, ModelNode modelNode, String attribute,
+            Function<ModelNode, T> getValue) {
+        if (modelNode.hasDefined(attribute)) {
+            ModelNode value = modelNode.get(attribute);
             // must not be the first append(name, value) call!
             cypher.comma().append(name, getValue.apply(value));
         }

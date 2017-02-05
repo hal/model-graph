@@ -65,6 +65,8 @@ public interface ModelDescriptionConstants {
     String FAILED = "failed";
     String FAILURE_DESCRIPTION = "failure-description";
 
+    String GLOBAL = "global";
+
     String INCLUDE_ALIASES = "include-aliases";
     String INCLUDE_SINGLETONS = "include-singletons";
 
@@ -74,20 +76,26 @@ public interface ModelDescriptionConstants {
     String LIST_REMOVE = "list-remove";
 
     String MAX = "max";
+    String MAX_LENGTH = "max-length";
     String MAP_CLEAR = "map-clear";
     String MAP_GET = "map-get";
     String MAP_PUT = "map-put";
     String MAP_REMOVE = "map-remove";
     String MIN = "min";
+    String MIN_LENGTH = "min-length";
 
     String NAME = "name";
     String NILLABLE = "nillable";
 
     String OP = "operation";
+    String OPERATION = "operation";
+    String OPERATION_NAME = "operation-name";
     String OPERATIONS = "operations";
     String OUTCOME = "outcome";
 
     String PARENT = "parent";
+
+    String QUERY = "query";
 
     String READ_ATTRIBUTE = "read-attribute";
     String READ_ATTRIBUTE_GROUP = "read-attribute-group";
@@ -95,15 +103,19 @@ public interface ModelDescriptionConstants {
     String READ_CHILDREN_NAMES = "read-children-names";
     String READ_CHILDREN_RESOURCES = "read-children-resources";
     String READ_CHILDREN_TYPES = "read-children-types";
+    String READ_ONLY = "read-only";
     String READ_OPERATION_DESCRIPTION = "read-operation-description";
-    String READ_OPERATION_NAMES = "read-operatrion-names";
+    String READ_OPERATION_NAMES = "read-operation-names";
     String READ_RESOURCE_DESCRIPTION = "read-resource-description";
     String READ_RESOURCE = "read-resource";
     String REMOVE = "remove";
+    String REPLY_PROPERTIES = "reply-properties";
+    String REQUEST_PROPERTIES = "request-properties";
     String REQUIRED = "required";
     String REQUIRES = "requires";
     String RESTART_REQUIRED = "restart-required";
     String RESULT = "result";
+    String RUNTIME_ONLY = "runtime-only";
 
     String SINCE = "since";
     String SINGLETON = "singleton";
@@ -117,6 +129,7 @@ public interface ModelDescriptionConstants {
 
     String VALUE_TYPE = "value-type";
 
+    String WHOAMI = "whoami";
     String WRITE_ATTRIBUTE = "write-attribute";
 }
 
