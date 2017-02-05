@@ -165,7 +165,7 @@ List all attributes which are both required and nillable, but which don't have a
 
 ```cypher
 MATCH (r:Resource)-->(a:Attribute)
-WHERE NOT (a)-[:ALTERNATIVE]-()  AND 
+WHERE NOT (a)-[:ALTERNATIVE]-() AND 
       a.required = true AND 
       a.nillable = true AND 
       a.storage = "configuration"
@@ -190,7 +190,7 @@ RETURN r.address, a.name, a.since
 
 ### Operations
 
-List all non-global operations with more than five operations:
+List all resource with more than five non-global operations:
  
 ```cypher
 MATCH (r:Resource)-[p:PROVIDES]->(o:Operation)
