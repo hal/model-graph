@@ -9,6 +9,7 @@ import org.neo4j.driver.v1.GraphDatabase;
 import org.neo4j.driver.v1.Session;
 import org.neo4j.driver.v1.StatementResult;
 import org.neo4j.driver.v1.Transaction;
+import org.neo4j.driver.v1.exceptions.DatabaseException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -24,19 +25,55 @@ public class Neo4jClient implements AutoCloseable {
     private long nodesCreated;
     private long relationsCreated;
 
-    public Neo4jClient(final HostAndPort hostAndPort, final String username, final String password) throws IOException {
+    public Neo4jClient(final HostAndPort hostAndPort, final String username, final String password, final boolean clean)
+            throws IOException {
         String uri = "bolt://" + hostAndPort;
         driver = GraphDatabase.driver(uri, AuthTokens.basic(username, password));
         webInterface = "http://" + hostAndPort.getHost() + ":7474/browser/";
         logger.info("Connected to Neo4j database at {}", hostAndPort);
-        createIndex();
+        setup(clean);
     }
 
-    private void createIndex() {
-
+    private void setup(boolean clean) {
+        if (clean) {
+            try (Session session = driver.session();
+                 Transaction tx = session.beginTransaction()) {
+                StatementResult result = tx.run("MATCH (n) DETACH DELETE(n)");
+                logger.info("Removed {} nodes and {} relations",
+                        result.summary().counters().nodesDeleted(),
+                        result.summary().counters().relationshipsDeleted());
+                tx.success();
+            }
+            failSafeDrop("DROP INDEX ON :Parameter(name)");
+            failSafeDrop("DROP INDEX ON :Operation(name)");
+            failSafeDrop("DROP INDEX ON :Capability(name)");
+            failSafeDrop("DROP INDEX ON :Resource(name)");
+            failSafeDrop("DROP CONSTRAINT ON (r:Resource) ASSERT r.address IS UNIQUE");
+            failSafeDrop("DROP INDEX ON :Attribute(name)");
+        }
+        try (Session session = driver.session();
+             Transaction tx = session.beginTransaction()) {
+            tx.run("CREATE INDEX ON :Resource(name)");
+            tx.run("CREATE CONSTRAINT ON (r:Resource) ASSERT r.address IS UNIQUE");
+            tx.run("CREATE INDEX ON :Attribute(name)");
+            tx.run("CREATE INDEX ON :Capability(name)");
+            tx.run("CREATE INDEX ON :Operation(name)");
+            tx.run("CREATE INDEX ON :Parameter(name)");
+            tx.success();
+        }
     }
 
-    public void execute(Cypher cypher) {
+    private void failSafeDrop(String statement) {
+        try (Session session = driver.session();
+             Transaction tx = session.beginTransaction()) {
+            tx.run(statement);
+            tx.success();
+        } catch (DatabaseException e) {
+            logger.warn(e.getMessage());
+        }
+    }
+
+    public StatementResult execute(Cypher cypher) {
         try (Session session = driver.session();
              Transaction tx = session.beginTransaction()) {
 
@@ -48,6 +85,7 @@ public class Neo4jClient implements AutoCloseable {
                     result.summary().counters().relationshipsCreated());
             nodesCreated += result.summary().counters().nodesCreated();
             relationsCreated += result.summary().counters().relationshipsCreated();
+            return result;
         }
     }
 

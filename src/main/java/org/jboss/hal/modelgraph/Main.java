@@ -40,6 +40,9 @@ public class Main {
     @Parameter(names = "-neo4j-password", description = "Neo4j password")
     private String neo4jPassword = "neo4j";
 
+    @Parameter(names = {"-clean"}, description = "Removes all indexes, nodes, relationships and properties before analysing the model tree.")
+    private boolean clean = false;
+
     @Parameter(names = "-resource", description = "The root resource to analyse.")
     private String resource = "/";
 
@@ -59,7 +62,7 @@ public class Main {
 
     private void run() {
         try (WildFlyClient wc = new WildFlyClient(safeHostAndPort(wildFly, 9990), wildFlyUsername, wildFlyPassword);
-             Neo4jClient nc = new Neo4jClient(safeHostAndPort(neo4j, 7687), neo4jUsername, neo4jPassword)) {
+             Neo4jClient nc = new Neo4jClient(safeHostAndPort(neo4j, 7687), neo4jUsername, neo4jPassword, clean)) {
 
             // start with resource and store metadata into neo4j database
             Analyzer analyzer = new Analyzer(wc, nc);
@@ -85,10 +88,7 @@ public class Main {
 
 
     private void finished(Analyzer analyzer, Neo4jClient nc) {
-        logger.info("{} resources successfully processed.", String.format("%,d", analyzer.getSuccessfulResources()));
-        logger.info("{} resources could not be processed.", String.format("%,d", analyzer.getFailedResources()));
-        logger.info("{} nodes and {} relations have been created.",
-                String.format("%,d", nc.getNodesCreated()), String.format("%,d", nc.getRelationsCreated()));
+        logger.info("{}", analyzer.stats());
         logger.info("Use the web interface at {} to query the database.", nc.getWebInterface());
     }
 }

@@ -15,6 +15,7 @@ import org.jboss.hal.modelgraph.dmr.ResourceAddress;
 import org.jboss.hal.modelgraph.dmr.WildFlyClient;
 import org.jboss.hal.modelgraph.neo4j.Cypher;
 import org.jboss.hal.modelgraph.neo4j.Neo4jClient;
+import org.neo4j.driver.v1.StatementResult;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -58,13 +59,13 @@ class Analyzer {
 
     private final WildFlyClient wc;
     private final Neo4jClient nc;
-    private long[] resources;
+    private final Stats stats;
     private final Set<String> missingGlobalOperations;
 
     Analyzer(final WildFlyClient wc, final Neo4jClient nc) {
         this.wc = wc;
         this.nc = nc;
-        this.resources = new long[2]; // [0] = failed, [1] = successful
+        this.stats = new Stats();
         this.missingGlobalOperations = new HashSet<>(GLOBAL_OPERATIONS);
     }
 
@@ -202,10 +203,8 @@ class Analyzer {
                     }
                 });
             }
-
-            resources[1]++;
         } else {
-            resources[0]++;
+            stats.failedResources++;
         }
     }
 
@@ -230,7 +229,9 @@ class Analyzer {
                 .append(ADDRESS, address.toString()).comma()
                 .append(SINGLETON, address.isSingleton())
                 .append("})");
+
         nc.execute(cypher);
+        stats.resources++;
     }
 
     private void mergeChildOf(ResourceAddress child, ResourceAddress parent) {
@@ -239,6 +240,7 @@ class Analyzer {
                 .append("(parent:Resource {")
                 .append(ADDRESS, PARENT, parent.toString()).append("})")
                 .append(" MERGE (child)-[:CHILD_OF]->(parent)");
+
         nc.execute(cypher);
     }
 
@@ -249,7 +251,9 @@ class Analyzer {
                 .append(ADDRESS, address.toString()).append("})")
                 .append(" MERGE (r)-[:DECLARES_CAPABILITY]->(:Capability {")
                 .append(NAME, capability).append("})");
-        nc.execute(cypher);
+
+        StatementResult statementResult = nc.execute(cypher);
+        stats.capabilities += statementResult.summary().counters().nodesCreated();
     }
 
 
@@ -287,7 +291,8 @@ class Analyzer {
                     .append("})");
         }
 
-        nc.execute(cypher);
+        StatementResult statementResult = nc.execute(cypher);
+        stats.attributes += statementResult.summary().counters().nodesCreated();
     }
 
     private void mergeAttributeRelation(ResourceAddress address, String source, String target, String relation) {
@@ -326,9 +331,10 @@ class Analyzer {
                 addValueType(cypher, replyNode);
             }
         }
-
         cypher.append("})");
-        nc.execute(cypher);
+
+        StatementResult statementResult = nc.execute(cypher);
+        stats.operations += statementResult.summary().counters().nodesCreated();
     }
 
     private void mergeRequestProperty(ResourceAddress address, String operationName, String requestPropertyName,
@@ -359,7 +365,8 @@ class Analyzer {
                     .append("})");
         }
 
-        nc.execute(cypher);
+        StatementResult statementResult = nc.execute(cypher);
+        stats.parameters += statementResult.summary().counters().nodesCreated();
     }
 
     private void mergeRequestPropertyRelation(ResourceAddress address, String operation, String source, String target,
@@ -428,11 +435,7 @@ class Analyzer {
 
     // ------------------------------------------------------ properties
 
-    long getSuccessfulResources() {
-        return resources[1];
-    }
-
-    long getFailedResources() {
-        return resources[0];
+    Stats stats() {
+        return stats;
     }
 }
