@@ -55,7 +55,7 @@ See the Neo4j browser for the complete list of nodes, relations and properties.
  
 ## Get Started
 
-To get started, you need a running WildFly and Neo4j instance. To install Neo4j, download it from https://neo4j.com/download/ or use `brew install neo4j`. To start Neo4j run `neo4j start` from the command line and open [http://localhost:7474/browser/](http://localhost:7474/browser/). If you login for the first time, you have to change your password. To change it back to the default use 
+To get started, you need a running WildFly and Neo4j instance. To install Neo4j, download it from https://neo4j.com/download/ or use `brew install neo4j`. To start Neo4j run `neo4j start` from the command line and open [http://localhost:7474/](http://localhost:7474/). If you login for the first time, you have to change your password. To change it back to the default use 
 
 ```cypher
 CALL dbms.changePassword('neo4j')
@@ -111,7 +111,7 @@ java -jar model-graph-0.0.5.jar
 
 The tool will populate the Neo4j instance with nodes, relations and properties of the specified resource (sub)tree. Please make sure the Neo4j instance is empty or use the `-clean` option to remove existing data. 
 
-If you want to analyse different management model versions, you need to setup multiple Neo4j instances and point the tool to the relevant instance. After the tool has finished, head to [http://localhost:7474/browser/](http://localhost:7474/browser/) and enter some queries. 
+If you want to analyse different management model versions, you need to setup multiple Neo4j instances and point the tool to the relevant instance. After the tool has finished, head to [http://localhost:7474/](http://localhost:7474/) and enter some queries. 
 
 ## Examples
 
