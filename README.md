@@ -70,6 +70,10 @@ Usage: <main class> [options]
     -help, --help
       Shows this help
 
+    -clean
+      Removes all indexes, nodes, relationships and properties before 
+      analysing the model tree.
+
     -neo4j
       Neo4j database as <server>[:<port>] with 7687 as default port. Omit to 
       connect to a local Neo4j database at localhost:7687.
