@@ -103,7 +103,7 @@ If everything runs locally using the default ports and credentials, you just nee
 
 ```bash
 mvn package
-java -jar target/model-graph-0.0.4.jar
+java -jar target/model-graph-0.0.5.jar
 ```
 
 The tool will populate the Neo4j instance with nodes, relations and properties of the specified resource (sub)tree. Please make sure the Neo4j instance is empty or use the `-clean` option to remove existing data. 
