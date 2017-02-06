@@ -195,7 +195,8 @@ List all deprecated attributes:
 ```cypher
 MATCH (r:Resource)-->(a:Attribute) 
 WHERE exists(a.deprecated)
-RETURN r.address, a.name, a.since ORDER BY a.since DESC
+RETURN r.address, a.name, a.since 
+ORDER BY a.since DESC
 ```
 
 ### Operations
@@ -207,7 +208,8 @@ MATCH (r:Resource)-[p:PROVIDES]->(o:Operation)
 WHERE NOT o.global
 WITH r, count(p) as operations
 WHERE operations > 5
-RETURN r.address, operations ORDER BY operations DESC
+RETURN r.address, operations 
+ORDER BY operations DESC
 ```
 
 List all `add` operations with more than two required parameters:
@@ -217,7 +219,8 @@ MATCH (r:Resource)-[:PROVIDES]->(o:Operation)-[a:ACCEPTS]->(p:Parameter)
 WHERE o.name = "add" AND p.required
 WITH r, o, count(a) as parameters
 WHERE parameters > 2
-RETURN r.address, o.name, parameters ORDER BY parameters DESC
+RETURN r.address, o.name, parameters 
+ORDER BY parameters DESC
 ```
 
 List all deprecated operation parameters:
@@ -225,7 +228,8 @@ List all deprecated operation parameters:
 ```cypher
 MATCH (r:Resource)-->(o:Operation)-->(p:Parameter)
 WHERE exists(p.deprecated)
-RETURN r.address, o.name, p.name, p.since ORDER BY p.since DESC
+RETURN r.address, o.name, p.name, p.since 
+ORDER BY p.since DESC
 ```
 
 See https://neo4j.com/docs/cypher-refcard/current/ for a quick reference of the Cypher query language. 
