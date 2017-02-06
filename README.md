@@ -204,7 +204,7 @@ MATCH (r:Resource)-[p:PROVIDES]->(o:Operation)
 WHERE NOT o.global
 WITH r, count(p) as operations
 WHERE operations > 5
-RETURN r.address, operations
+RETURN r.address, operations ORDER BY operations DESC
 ```
 
 List all `add` operations with more than two required parameters:
@@ -214,7 +214,7 @@ MATCH (r:Resource)-[:PROVIDES]->(o:Operation)-[a:ACCEPTS]->(p:Parameter)
 WHERE o.name = "add" AND p.required
 WITH r, o, count(a) as parameters
 WHERE parameters > 2
-RETURN r.address, o.name, parameters
+RETURN r.address, o.name, parameters ORDER BY parameters DESC
 ```
 
 List all deprecated operation parameters:
