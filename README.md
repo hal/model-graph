@@ -102,7 +102,8 @@ Usage: <main class> [options]
 If everything runs locally using the default ports and credentials, you just need to run 
 
 ```bash
-java -jar model-graph-0.0.4.jar
+mvn package
+java -jar target/model-graph-0.0.4.jar
 ```
 
 The tool will populate the Neo4j instance with nodes, relations and properties of the specified resource (sub)tree. Please make sure the Neo4j instance is empty or use the `-clean` option to remove existing data. 
@@ -111,7 +112,7 @@ If you want to analyse different management model versions, you need to setup mu
 
 ## Examples
 
-Here are a few examples what you can do with the collected data:
+Here are a few examples how to query the database:
 
 ### Resources & Relationships
 
