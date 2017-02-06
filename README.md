@@ -210,7 +210,7 @@ List all `add` operations with more than two required parameters:
 
 ```cypher
 MATCH (r:Resource)-[:PROVIDES]->(o:Operation)-[a:ACCEPTS]->(p:Parameter)
-WHERE NOT o.name = "add" AND p.required
+WHERE o.name = "add" AND p.required
 WITH r, o, count(a) as parameters
 WHERE parameters > 2
 RETURN r.address, o.name, parameters
