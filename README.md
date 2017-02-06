@@ -196,7 +196,7 @@ RETURN r.address, a.name, a.since
 
 ### Operations
 
-List all resource with more than five non-global operations:
+List all resources with more than five non-global operations:
  
 ```cypher
 MATCH (r:Resource)-[p:PROVIDES]->(o:Operation)
@@ -206,7 +206,7 @@ WHERE operations > 5
 RETURN r.address, operations
 ```
 
-List all `add` operation with more than two required parameters:
+List all `add` operations with more than two required parameters:
 
 ```cypher
 MATCH (r:Resource)-[:PROVIDES]->(o:Operation)-[a:ACCEPTS]->(p:Parameter)
