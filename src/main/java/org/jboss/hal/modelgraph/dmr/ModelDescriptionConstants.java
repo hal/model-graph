@@ -88,7 +88,6 @@ public interface ModelDescriptionConstants {
     String NILLABLE = "nillable";
 
     String OP = "operation";
-    String OPERATION = "operation";
     String OPERATION_NAME = "operation-name";
     String OPERATIONS = "operations";
     String OUTCOME = "outcome";

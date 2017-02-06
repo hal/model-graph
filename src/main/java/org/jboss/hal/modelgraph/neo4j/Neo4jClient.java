@@ -22,8 +22,6 @@ public class Neo4jClient implements AutoCloseable {
 
     private final Driver driver;
     private final String webInterface;
-    private long nodesCreated;
-    private long relationsCreated;
 
     public Neo4jClient(final HostAndPort hostAndPort, final String username, final String password, final boolean clean)
             throws IOException {
@@ -83,8 +81,6 @@ public class Neo4jClient implements AutoCloseable {
             logger.debug("{} node and {} relations created",
                     result.summary().counters().nodesCreated(),
                     result.summary().counters().relationshipsCreated());
-            nodesCreated += result.summary().counters().nodesCreated();
-            relationsCreated += result.summary().counters().relationshipsCreated();
             return result;
         }
     }
@@ -97,13 +93,5 @@ public class Neo4jClient implements AutoCloseable {
 
     public String getWebInterface() {
         return webInterface;
-    }
-
-    public long getNodesCreated() {
-        return nodesCreated;
-    }
-
-    public long getRelationsCreated() {
-        return relationsCreated;
     }
 }

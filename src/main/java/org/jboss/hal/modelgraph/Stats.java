@@ -15,8 +15,8 @@ class Stats {
     @Override
     public String toString() {
         String result = String.format("Successfully created%n\t%,8d resources%n" +
-                "\t%,8d attributes,%n" +
-                "\t%,8d operations,%n" +
+                "\t%,8d attributes%n" +
+                "\t%,8d operations%n" +
                 "\t%,8d request properties and %n" +
                 "\t%,8d capabilities.",
                 resources, attributes, operations, parameters, capabilities);
