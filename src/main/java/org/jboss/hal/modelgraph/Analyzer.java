@@ -241,7 +241,8 @@ class Analyzer {
                 .append(ADDRESS, PARENT, parent.toString()).append("})")
                 .append(" MERGE (child)-[:CHILD_OF]->(parent)");
 
-        nc.execute(cypher);
+        StatementResult statementResult = nc.execute(cypher);
+        stats.relations += statementResult.summary().counters().relationshipsCreated();
     }
 
     // ------------------------------------------------------ neo4j - capability
@@ -254,6 +255,7 @@ class Analyzer {
 
         StatementResult statementResult = nc.execute(cypher);
         stats.capabilities += statementResult.summary().counters().nodesCreated();
+        stats.relations += statementResult.summary().counters().relationshipsCreated();
     }
 
 
@@ -293,6 +295,7 @@ class Analyzer {
 
         StatementResult statementResult = nc.execute(cypher);
         stats.attributes += statementResult.summary().counters().nodesCreated();
+        stats.relations += statementResult.summary().counters().relationshipsCreated();
     }
 
     private void mergeAttributeRelation(ResourceAddress address, String source, String target, String relation) {
@@ -308,7 +311,8 @@ class Analyzer {
 
                 .append(" MERGE (source)").append(relation).append("(target)");
 
-        nc.execute(cypher);
+        StatementResult statementResult = nc.execute(cypher);
+        stats.relations += statementResult.summary().counters().relationshipsCreated();
     }
 
 
@@ -335,6 +339,7 @@ class Analyzer {
 
         StatementResult statementResult = nc.execute(cypher);
         stats.operations += statementResult.summary().counters().nodesCreated();
+        stats.relations += statementResult.summary().counters().relationshipsCreated();
     }
 
     private void mergeRequestProperty(ResourceAddress address, String operationName, String requestPropertyName,
@@ -367,6 +372,7 @@ class Analyzer {
 
         StatementResult statementResult = nc.execute(cypher);
         stats.parameters += statementResult.summary().counters().nodesCreated();
+        stats.relations += statementResult.summary().counters().relationshipsCreated();
     }
 
     private void mergeRequestPropertyRelation(ResourceAddress address, String operation, String source, String target,
@@ -384,7 +390,8 @@ class Analyzer {
 
                 .append(" MERGE (source)").append(relation).append("(target)");
 
-        nc.execute(cypher);
+        StatementResult statementResult = nc.execute(cypher);
+        stats.relations += statementResult.summary().counters().relationshipsCreated();
     }
 
     private void linkGlobalOperation(ResourceAddress address, String operationName) {
@@ -393,7 +400,9 @@ class Analyzer {
                 .append("(o:Operation{")
                 .append(NAME, operationName).append("})")
                 .append(" MERGE (r)-[:PROVIDES]->(o)");
-        nc.execute(cypher);
+
+        StatementResult statementResult = nc.execute(cypher);
+        stats.relations += statementResult.summary().counters().relationshipsCreated();
     }
 
 
