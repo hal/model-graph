@@ -399,7 +399,7 @@ class Analyzer {
 
     // ------------------------------------------------------ helper methods
 
-    private void addDeprecated(final Cypher cypher, final ModelNode modelNode) {
+    private void addDeprecated(Cypher cypher, ModelNode modelNode) {
         if (modelNode.hasDefined(DEPRECATED)) {
             cypher.comma().append(DEPRECATED, true);
             ModelNode deprecatedNode = modelNode.get(DEPRECATED);
