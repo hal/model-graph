@@ -6,7 +6,7 @@ Tool which reads the management model from a WildFly instance and stores it as a
 
 The tool creates the following graph:
 
-![Model Graph](https://hal.github.io/model-graph/model-graph.png)
+![Model Graph](src/guide/model-graph.png)
 
 There are five main nodes in the graph:
 
