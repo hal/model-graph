@@ -157,7 +157,7 @@ WHERE a.required = true AND
 RETURN r.address, a.name, alt.name
 ```
 
-List all attributes which are both required and nillable, but which don't have alternatives (should return no results!)
+List all attributes which are both required and nillable, but which don't have alternatives:
 
 ```cypher
 MATCH (r:Resource)-->(a:Attribute)
@@ -166,6 +166,15 @@ WHERE NOT (a)-[:ALTERNATIVE]-() AND
       a.nillable = true AND 
       a.storage = "configuration"
 RETURN r.address, a.name
+```
+
+List all attributes which are required and have a default value:
+
+```cypher
+MATCH (r:Resource)-->(a:Attribute)
+WHERE a.required = true AND 
+      exists(a.default)
+RETURN r.address, a.name, a.default
 ```
 
 List all complex attributes (i.e. attributes with a value type other than `STRING`):
