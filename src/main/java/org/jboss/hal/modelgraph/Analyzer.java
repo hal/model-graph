@@ -299,14 +299,12 @@ class Analyzer {
     }
 
     private void mergeAttributeRelation(ResourceAddress address, String source, String target, String relation) {
-        Cypher cypher = new Cypher("MATCH (:Resource {")
+        Cypher cypher = new Cypher("MATCH (r:Resource {")
                 .append(ADDRESS, address.toString()).append("})")
                 .append("-[:HAS_ATTRIBUTE]->(source:Attribute {")
                 .append(NAME, "sourceName", source).append("}),")
 
-                .append("(:Resource {")
-                .append(ADDRESS, address.toString()).append("})")
-                .append("-[:HAS_ATTRIBUTE]->(target:Attribute {")
+                .append("(r)-[:HAS_ATTRIBUTE]->(target:Attribute {")
                 .append(NAME, "targetName", target).append("})")
 
                 .append(" MERGE (source)").append(relation).append("(target)");

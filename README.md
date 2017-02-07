@@ -6,21 +6,7 @@ Tool which reads the management model from a WildFly instance and stores it as a
 
 The tool creates the following graph:
 
-![Alt text](https://g.gravizo.com/g?
- digraph mg {
-   Resource -> Resource [label="CHILD_OF"];
-   Resource -> Capability [label="DECLARES_CAPABILITY"];
-   Resource -> Attribute [label="HAS_ATTRIBUTE"];
-   Attribute -> Attribute [label="REQUIRES"];
-   Attribute -> Attribute [label="ALTERNATIVE"];
-   Attribute -> Capability [label="REFERENCES_CAPABILITY"];
-   Resource -> Operation [label="PROVIDES"];
-   Operation -> Parameter [label="ACCEPTS"];
-   Parameter -> Parameter [label="REQUIRES"];
-   Parameter -> Parameter [label="ALTERNATIVE"];
-   Parameter -> Capability [label="REFERENCES_CAPABILITY"];
- }
-)
+![Model Graph](src/main/guides/model-graph.png)
 
 There are five main nodes in the graph:
 
