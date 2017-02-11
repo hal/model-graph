@@ -8,7 +8,7 @@ The tool creates the following graph:
 
 ![Model Graph](src/guide/model-graph.png)
 
-There are five main nodes in the graph:
+There are five main nodes in the database:
 
 1. Resource
     
@@ -37,6 +37,12 @@ There are five main nodes in the graph:
   
     The capability node holds just the name of the capability. 
 
+Finally the database contains one Version node with three properties:
+ 
+- management-major-version
+- management-micro-version
+- management-minor-version
+ 
 See the Neo4j browser for the complete list of nodes, relations and properties. 
  
 ## Get Started

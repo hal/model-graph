@@ -70,11 +70,20 @@ class Analyzer {
     }
 
     void start(final String resource) {
+        version();
         parse(ResourceAddress.of(resource), null);
     }
 
 
     // ------------------------------------------------------ management model
+
+    private void version() {
+        Operation operation = new Operation.Builder(READ_RESOURCE, ResourceAddress.of("/"))
+                .param(ATTRIBUTES_ONLY, true)
+                .build();
+        ModelNode modelNode = wc.execute(operation);
+        writeVersion(modelNode);
+    }
 
     private void parse(ResourceAddress address, ResourceAddress parent) {
         if (address.size() < MAX_DEPTH) {
@@ -222,6 +231,17 @@ class Analyzer {
 
 
     // ------------------------------------------------------ neo4j - resources
+
+    private void writeVersion(ModelNode modelNode) {
+        Cypher cypher = new Cypher("CREATE (:Version {")
+                .append(MANAGEMENT_MAJOR_VERSION, modelNode.get(MANAGEMENT_MAJOR_VERSION).asInt()).comma()
+                .append(MANAGEMENT_MICRO_VERSION, modelNode.get(MANAGEMENT_MICRO_VERSION).asInt()).comma()
+                .append(MANAGEMENT_MINOR_VERSION, modelNode.get(MANAGEMENT_MINOR_VERSION).asInt())
+                .append("})");
+
+        nc.execute(cypher);
+        stats.resources++;
+    }
 
     private void createResource(ResourceAddress address) {
         Cypher cypher = new Cypher("CREATE (:Resource {")

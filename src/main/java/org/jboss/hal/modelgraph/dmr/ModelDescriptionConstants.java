@@ -50,8 +50,9 @@ public interface ModelDescriptionConstants {
     String ADDRESS = "address";
     String ALIAS = "alias";
     String ALTERNATIVES = "alternatives";
-    String ATTRIBUTES = "attributes";
     String ATTRIBUTE_GROUP = "attribute-group";
+    String ATTRIBUTES = "attributes";
+    String ATTRIBUTES_ONLY = "attributes-only";
 
     String CAPABILITIES = "capabilities";
     String CAPABILITY_REFERENCE = "capability-reference";
@@ -75,12 +76,15 @@ public interface ModelDescriptionConstants {
     String LIST_GET = "list-get";
     String LIST_REMOVE = "list-remove";
 
-    String MAX = "max";
-    String MAX_LENGTH = "max-length";
+    String MANAGEMENT_MAJOR_VERSION = "management-major-version";
+    String MANAGEMENT_MICRO_VERSION = "management-micro-version";
+    String MANAGEMENT_MINOR_VERSION = "management-minor-version";
     String MAP_CLEAR = "map-clear";
     String MAP_GET = "map-get";
     String MAP_PUT = "map-put";
     String MAP_REMOVE = "map-remove";
+    String MAX = "max";
+    String MAX_LENGTH = "max-length";
     String MIN = "min";
     String MIN_LENGTH = "min-length";
 
