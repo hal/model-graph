@@ -167,6 +167,14 @@ WHERE parameters > 2
 RETURN r.address, o.name, parameters
 ORDER BY parameters DESC</pre>
             </figure>
+            <h4>Version</h4>
+            <p>Show the release and management model version:</p>
+            <figure>
+                <pre class="pre-scrollable code runnable">MATCH (v:Version)
+RETURN v.`release-codename` + " " + v.`release-version` as Release,
+	   v.`management-major-version` + "." + v.`management-minor-version` + "." + v.`management-micro-version` as `Management Model Version`
+</pre>
+            </figure>
         </slide>
     </carousel>
 </article>
