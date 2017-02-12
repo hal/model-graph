@@ -92,7 +92,7 @@ Usage: <main class> [options]
 If everything runs locally using the default ports and credentials, you just need to run 
 
 ```bash
-java -jar model-graph-0.0.5.jar
+java -jar model-graph-0.1.0.jar
 ```
 
 The tool will populate the Neo4j instance with nodes, relations and properties of the specified resource (sub)tree. Please make sure the Neo4j instance is empty or use the `-clean` option to remove existing data. 

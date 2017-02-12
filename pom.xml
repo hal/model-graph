@@ -31,7 +31,7 @@
 
     <groupId>org.jboss.hal</groupId>
     <artifactId>model-graph</artifactId>
-    <version>0.0.5</version>
+    <version>0.1.0</version>
     <name>Management Model Graph</name>
     <description>Tool to analyze the management model of a WildFly standalone or domain instance</description>
     <packaging>jar</packaging>
