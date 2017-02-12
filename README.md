@@ -37,13 +37,7 @@ There are five main nodes in the database:
   
     The capability node holds just the name of the capability. 
 
-Finally the database contains one Version node with three properties:
- 
-- management-major-version
-- management-micro-version
-- management-minor-version
- 
-See the Neo4j browser for the complete list of nodes, relations and properties. 
+In addition the database contains a `Version` node with information about the WildFly and management model version. See the Neo4j browser for the complete list of nodes, relations and properties. 
  
 ## Get Started
 
@@ -231,6 +225,16 @@ MATCH (r:Resource)-->(o:Operation)-->(p:Parameter)
 WHERE exists(p.deprecated)
 RETURN r.address, o.name, p.name, p.since 
 ORDER BY p.since DESC
+```
+
+### Version
+
+Show the release and management model version:
+
+```cypher
+MATCH (v:Version) 
+RETURN v.`release-codename` + " " + v.`release-version` as Release,
+	   v.`management-major-version` + "." + v.`management-minor-version` + "." + v.`management-micro-version` as `Management Model Version`
 ```
 
 See https://neo4j.com/docs/cypher-refcard/current/ for a quick reference of the Cypher query language. 

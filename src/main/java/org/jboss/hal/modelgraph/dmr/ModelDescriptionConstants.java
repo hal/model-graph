@@ -69,6 +69,7 @@ public interface ModelDescriptionConstants {
     String GLOBAL = "global";
 
     String INCLUDE_ALIASES = "include-aliases";
+    String INCLUDE_RUNTIME = "include-runtime";
     String INCLUDE_SINGLETONS = "include-singletons";
 
     String LIST_ADD = "list-add";
@@ -97,6 +98,8 @@ public interface ModelDescriptionConstants {
     String OUTCOME = "outcome";
 
     String PARENT = "parent";
+    String PRODUCT_NAME = "product-name";
+    String PRODUCT_VERSION = "product-version";
 
     String QUERY = "query";
 
@@ -111,6 +114,8 @@ public interface ModelDescriptionConstants {
     String READ_OPERATION_NAMES = "read-operation-names";
     String READ_RESOURCE_DESCRIPTION = "read-resource-description";
     String READ_RESOURCE = "read-resource";
+    String RELEASE_CODENAME = "release-codename";
+    String RELEASE_VERSION = "release-version";
     String REMOVE = "remove";
     String REPLY_PROPERTIES = "reply-properties";
     String REQUEST_PROPERTIES = "request-properties";

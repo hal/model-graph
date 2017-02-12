@@ -80,6 +80,7 @@ class Analyzer {
     private void version() {
         Operation operation = new Operation.Builder(READ_RESOURCE, ResourceAddress.of("/"))
                 .param(ATTRIBUTES_ONLY, true)
+                .param(INCLUDE_RUNTIME, true)
                 .build();
         ModelNode modelNode = wc.execute(operation);
         writeVersion(modelNode);
@@ -232,12 +233,16 @@ class Analyzer {
 
     // ------------------------------------------------------ neo4j - resources
 
-    private void writeVersion(ModelNode modelNode) {
+    private void writeVersion(ModelNode versionNode) {
         Cypher cypher = new Cypher("CREATE (:Version {")
-                .append(MANAGEMENT_MAJOR_VERSION, modelNode.get(MANAGEMENT_MAJOR_VERSION).asInt()).comma()
-                .append(MANAGEMENT_MICRO_VERSION, modelNode.get(MANAGEMENT_MICRO_VERSION).asInt()).comma()
-                .append(MANAGEMENT_MINOR_VERSION, modelNode.get(MANAGEMENT_MINOR_VERSION).asInt())
-                .append("})");
+                .append(MANAGEMENT_MAJOR_VERSION, versionNode.get(MANAGEMENT_MAJOR_VERSION).asInt()).comma()
+                .append(MANAGEMENT_MICRO_VERSION, versionNode.get(MANAGEMENT_MICRO_VERSION).asInt()).comma()
+                .append(MANAGEMENT_MINOR_VERSION, versionNode.get(MANAGEMENT_MINOR_VERSION).asInt());
+        addIfPresent(cypher, PRODUCT_NAME, versionNode, ModelNode::asString);
+        addIfPresent(cypher, PRODUCT_VERSION, versionNode, ModelNode::asString);
+        addIfPresent(cypher, RELEASE_CODENAME, versionNode, ModelNode::asString);
+        addIfPresent(cypher, RELEASE_VERSION, versionNode, ModelNode::asString);
+        cypher.append("})");
 
         nc.execute(cypher);
         stats.resources++;
