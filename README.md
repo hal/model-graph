@@ -41,17 +41,7 @@ In addition the database contains a `Version` node with information about the Wi
  
 ## Get Started
 
-### Online Version
-
-The WildFly public CI hosts databases for the most recent WildFly versions. Head over to http://model-graph.ci.wildfly.org/ and choose between 
-
-- WildFly Nightly: http://model-graph.ci.wildfly.org:7476/browser/
-- WildFly 10.1.0.Final: http://model-graph.ci.wildfly.org:7480/browser/
-- WildFly 9.0.2.Final: http://model-graph.ci.wildfly.org:7478/browser/
-
-### BYO (Build Your Own)
-
-If you want to have full control, you can create a local database. You need a running WildFly and Neo4j instance. To install Neo4j, download it from https://neo4j.com/download/ or use `brew install neo4j`. Start Neo4j using `neo4j start` from the command line and open [http://localhost:7474/](http://localhost:7474/). If you login for the first time, you have to change your password. To change it back to the default use 
+To get started, you need a running WildFly and Neo4j instance. To install Neo4j, download it from https://neo4j.com/download/ or use `brew install neo4j`. Start Neo4j using `neo4j start` from the command line and open [http://localhost:7474/](http://localhost:7474/). If you login for the first time, you have to change your password. To change it back to the default use 
 
 ```cypher
 CALL dbms.changePassword('neo4j')
