@@ -168,7 +168,7 @@ RETURN r.address, o.name, parameters
 ORDER BY parameters DESC</pre>
             </figure>
             <h4>Version</h4>
-            <p>Show the release and management model version:</p>
+            <p style="margin-top: 10px">Show the release and management model version:</p>
             <figure>
                 <pre class="pre-scrollable code runnable">MATCH (v:Version)
 RETURN v.`release-codename` + " " + v.`release-version` as Release,
