@@ -42,9 +42,15 @@
                 <li class="dropdown ">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown">Versions<b class="caret"></b></a>
                     <ul class="dropdown-menu">
-                        <li><a target="neo4j-wf-latest" href="http://model-graph.ci.wildfly.org:7476/browser/">Wildfly Latest</a></li>
-                        <li><a target="neo4j-wf-10" href="http://model-graph.ci.wildfly.org:7480/browser/">Wildfly 10.1.0.Final</a></li>
-                        <li><a target="neo4j-wf-9" href="http://model-graph.ci.wildfly.org:7478/browser/">Wildfly 9.0.2.Final</a></li>
+                        <li>
+                            <a target="neo4j-wf-nightly" href="http://model-graph.ci.wildfly.org:7476/browser/">Wildfly Nightly</a>
+                        </li>
+                        <li>
+                            <a target="neo4j-wf-10" href="http://model-graph.ci.wildfly.org:7480/browser/">Wildfly 10.1.0.Final</a>
+                        </li>
+                        <li>
+                            <a target="neo4j-wf-9" href="http://model-graph.ci.wildfly.org:7478/browser/">Wildfly 9.0.2.Final</a>
+                        </li>
                     </ul>
                 </li>
                 <li><a href="http://www.jboss.com">Get JBoss EAP</a></li>
@@ -57,26 +63,32 @@
 <div class="jumbotron">
     <div class="container-fluid">
         <h1>WildFly Management Model Graphs</h1>
-        <p>This site provides links to graph databases containing the WildFly management model. Each WildFly version is maintained in its own Neo4j database. Follow the links below to open the Neo4j browser of your WildFly version. The Neo4j browser contains a guide explaining the database schema and gives some example queries.</p>
+        <p>This site provides links to graph databases containing the WildFly management model. Each WildFly version is maintained in its own Neo4j database. Follow the links below to open the Neo4j browser of your WildFly version. The Neo4j browser contains a guide explaining the database schema and provides sample queries.</p>
     </div>
 </div>
 
 <div class="container-fluid">
     <div class="row">
         <div class="col-md-4">
-            <h2>WildFly Latest</h2>
-            <p>The management model for the latest WildFly build.</p>
-            <p><a target="neo4j-wf-latest" class="btn btn-default" href="http://model-graph.ci.wildfly.org:7476/browser/" role="button">Details &raquo;</a></p>
+            <h2>WildFly Nightly</h2>
+            <p>The management model for the latest WildFly build. The Neo4j browser runs on port <code>7476</code>.</p>
+            <p>
+                <a target="neo4j-wf-nightly" class="btn btn-default" href="http://model-graph.ci.wildfly.org:7476/browser/" role="button">Open Browser &raquo;</a>
+            </p>
         </div>
         <div class="col-md-4">
             <h2>WildFly 10.1.0.Final</h2>
-            <p>The management model for WildFly 10.1.0.Final</p>
-            <p><a target="neo4j-wf-10" class="btn btn-default" href="http://model-graph.ci.wildfly.org:7480/browser/" role="button">View details &raquo;</a></p>
+            <p>The management model for WildFly 10.1.0.Final. The Neo4j browser runs on port <code>7480</code></p>
+            <p>
+                <a target="neo4j-wf-10" class="btn btn-default" href="http://model-graph.ci.wildfly.org:7480/browser/" role="button">Open Browser &raquo;</a>
+            </p>
         </div>
         <div class="col-md-4">
             <h2>WildFly 9.0.2.Final</h2>
-            <p>The management model for WildFly 9.0.2.Final</p>
-            <p><a target="neo4j-wf-10" class="btn btn-default" href="http://model-graph.ci.wildfly.org:7478/browser/" role="button">View details &raquo;</a></p>
+            <p>The management model for WildFly 9.0.2.Final. The Neo4j browser runs on port <code>7478</code></p>
+            <p>
+                <a target="neo4j-wf-9" class="btn btn-default" href="http://model-graph.ci.wildfly.org:7478/browser/" role="button">Open Browser &raquo;</a>
+            </p>
         </div>
     </div>
     <hr>
