@@ -130,7 +130,7 @@ RETURN g
 
 ### Attributes
 
-The top twenty of resources with lots of attributes:
+The top twenty resources with lots of attributes:
 
 ```cypher
 MATCH (r:Resource)-[has:HAS_ATTRIBUTE]->()
