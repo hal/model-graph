@@ -109,7 +109,15 @@ RETURN g
 </pre>
             </figure>
             <h4>Attributes</h4>
-            <p style="margin-top: 10px">List all attributes which match the regexp .*socket-binding.*, but do not have a capability reference:</p>
+            <p style="margin-top: 10px">The top twenty of resources with lots of attributes::</p>
+            <figure>
+                <pre class="pre-scrollable code runnable">MATCH (r:Resource)-[has:HAS_ATTRIBUTE]->()
+RETURN r.address, COUNT(has) as attributes
+ORDER BY attributes DESC
+LIMIT 20</pre>
+            </figure>
+
+            <p>List all attributes which match the regexp .*socket-binding.*, but do not have a capability reference:</p>
             <figure>
                 <pre class="pre-scrollable code runnable">MATCH (r:Resource)-->(a:Attribute)
 WHERE a.name =~ ".*socket-binding.*" AND

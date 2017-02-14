@@ -130,6 +130,15 @@ RETURN g
 
 ### Attributes
 
+The top twenty of resources with lots of attributes:
+
+```cypher
+MATCH (r:Resource)-[has:HAS_ATTRIBUTE]->()
+RETURN r.address, COUNT(has) as attributes
+ORDER BY attributes DESC
+LIMIT 20
+```
+
 List all attributes which have a capability reference to `org.wildfly.network.socket-binding`:
 
 ```cypher
