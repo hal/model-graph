@@ -43,11 +43,11 @@ In addition the database contains a `Version` node with information about the Wi
 
 ### Online Version
 
-The WildFly public CI hosts databases for the most recent WildFly versions. Head over to http://model-graph.ci.wildfly.org/ and choose between 
+The WildFly public CI hosts databases for the most recent WildFly versions. Head over to https://ci.wildfly.org/model-graph/ and choose between 
 
-- WildFly Nightly: http://model-graph.ci.wildfly.org:7476/browser/
-- WildFly 10.1.0.Final: http://model-graph.ci.wildfly.org:7480/browser/
-- WildFly 9.0.2.Final: http://model-graph.ci.wildfly.org:7478/browser/
+- WildFly Nightly: https://ci.wildfly.org/model-graph/nightly/browser/
+- WildFly 10.1.0.Final: https://ci.wildfly.org/model-graph/10.x/browser/
+- WildFly 9.0.2.Final: https://ci.wildfly.org/model-graph/9.x/browser/
 
 ### BYO (Build Your Own)
 

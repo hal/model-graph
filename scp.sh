@@ -1,6 +1,7 @@
 #!/bin/bash
 
-# neo4j config
+# config
+scp src/conf/nginx/model-graph.conf root@model-graph:/etc/nginx/conf.d
 scp src/conf/7474/neo4j.conf neo4j@model-graph:/home/neo4j/neo4j-instances/ports/7474/conf
 scp src/conf/7476/neo4j.conf neo4j@model-graph:/home/neo4j/neo4j-instances/ports/7476/conf
 scp src/conf/7478/neo4j.conf neo4j@model-graph:/home/neo4j/neo4j-instances/ports/7478/conf
