@@ -8,7 +8,7 @@ The tool creates the following graph:
 
 ![Model Graph](src/html/model-graph.png)
 
-There are five main nodes in the database:
+There are six main nodes in the database:
 
 1. Resource
     
@@ -32,6 +32,10 @@ There are five main nodes in the database:
 1. Parameter
 
     The parameter node holds information about the request properties and has similar properties as the `attribute` node.
+    
+1. Sensitivity
+
+    The sensitivity node holds information about the sensitive constraints of attributes. Each sensitivity has a name and a type. 
 
 1. Capability
   

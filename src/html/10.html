@@ -70,6 +70,10 @@
                     <dd>
                         <p>The parameter node holds information about the request properties. The properties and relationships of the parameter node are similar to the attribute node.</p>
                     </dd>
+                    <dt>Sensitivity</dt>
+                    <dd>
+                        <p>The sensitivity node holds information about the sensitive constraints of attributes. Each sensitivity has a name and a type.</p>
+                    </dd>
                     <dt>Capability</dt>
                     <dd><p>The capability node holds just the name of the capability.</p>
                     </dd>
@@ -90,6 +94,9 @@
                 </figure>
                 <figure>
                     <pre class="pre-scrollable code runnable">MATCH (p:Parameter) RETURN keys(p) LIMIT 1</pre>
+                </figure>
+                <figure>
+                    <pre class="pre-scrollable code runnable">MATCH (p:Sensitivity) RETURN keys(p) LIMIT 1</pre>
                 </figure>
                 <figure>
                     <pre class="pre-scrollable code runnable">MATCH (c:Capability) RETURN keys(c) LIMIT 1</pre>

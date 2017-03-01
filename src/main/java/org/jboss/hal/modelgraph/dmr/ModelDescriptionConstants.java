@@ -45,6 +45,7 @@ package org.jboss.hal.modelgraph.dmr;
 public interface ModelDescriptionConstants {
 
     // KEEP THESE IN ALPHABETICAL ORDER!
+    String ACCESS_CONSTRAINTS = "access-constraints";
     String ACCESS_TYPE = "access-type";
     String ADD = "add";
     String ADDRESS = "address";
@@ -125,6 +126,7 @@ public interface ModelDescriptionConstants {
     String RESULT = "result";
     String RUNTIME_ONLY = "runtime-only";
 
+    String SENSITIVE = "sensitive";
     String SINCE = "since";
     String SINGLETON = "singleton";
     String STORAGE = "storage";

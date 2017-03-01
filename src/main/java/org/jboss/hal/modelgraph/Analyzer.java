@@ -91,7 +91,7 @@ class Analyzer {
             parseResource(address, parent);
             readChildren(address).forEach(child -> parse(address.add(child), address));
         } else {
-            logger.warn("Skipping {}. Maximum nesting of {} reached.", address.toString(), MAX_DEPTH);
+            logger.warn("Skip {}. Maximum nesting of {} reached.", address.toString(), MAX_DEPTH);
         }
     }
 
@@ -134,6 +134,15 @@ class Analyzer {
                     ModelNode attribute = property.getValue();
                     mergeAttribute(address, name, attribute);
 
+                    // sensitivity
+                    if (attribute.hasDefined(ACCESS_CONSTRAINTS) &&
+                            attribute.get(ACCESS_CONSTRAINTS).hasDefined(SENSITIVE)) {
+                        ModelNode sensitive = attribute.get(ACCESS_CONSTRAINTS).get(SENSITIVE);
+                        if (sensitive.isDefined()) {
+                            mergeSensitive(address, name, sensitive);
+                        }
+                    }
+
                     // collect alternatives and requires
                     if (attribute.hasDefined(ALTERNATIVES)) {
                         List<String> a = attribute.get(ALTERNATIVES)
@@ -162,9 +171,9 @@ class Analyzer {
 
             // operations
             if (resourceDescription.hasDefined(OPERATIONS)) {
-                resourceDescription.get(OPERATIONS).asPropertyList().forEach(op -> {
-                    String name = op.getName();
-                    ModelNode operation = op.getValue();
+                resourceDescription.get(OPERATIONS).asPropertyList().forEach(property -> {
+                    String name = property.getName();
+                    ModelNode operation = property.getValue();
                     boolean globalOperation = GLOBAL_OPERATIONS.contains(name);
                     boolean create = !globalOperation || missingGlobalOperations.contains(name);
 
@@ -270,6 +279,7 @@ class Analyzer {
         stats.relations += statementResult.summary().counters().relationshipsCreated();
     }
 
+
     // ------------------------------------------------------ neo4j - capability
 
     private void mergeCapabilities(ResourceAddress address, String capability) {
@@ -309,11 +319,12 @@ class Analyzer {
         addIfPresent(cypher, UNIT, attribute, ModelNode::asString);
         addDeprecated(cypher, attribute);
         addValueType(cypher, attribute);
-
         cypher.append("})"); // end attribute
+
+        // capability
         if (attribute.hasDefined(CAPABILITY_REFERENCE)) {
             String capabilityReference = attribute.get(CAPABILITY_REFERENCE).asString();
-            cypher.append(" MERGE (a)-[:REFERENCES_CAPABILITY]-(:Capability {")
+            cypher.append(" MERGE (a)-[:REFERENCES_CAPABILITY]->(:Capability {")
                     .append(NAME, CAPABILITY_REFERENCE, capabilityReference)
                     .append("})");
         }
@@ -321,6 +332,25 @@ class Analyzer {
         StatementResult statementResult = nc.execute(cypher);
         stats.attributes += statementResult.summary().counters().nodesCreated();
         stats.relations += statementResult.summary().counters().relationshipsCreated();
+    }
+
+    private void mergeSensitive(ResourceAddress address, String name, ModelNode sensitive) {
+        sensitive.asPropertyList().forEach(property -> {
+            String sensitiveName = property.getName();
+            String type = property.getValue().get(TYPE).asString();
+
+            Cypher cypher = new Cypher("MATCH (:Resource {")
+                    .append(ADDRESS, address.toString()).append("})")
+                    .append("-[:HAS_ATTRIBUTE]->(a:Attribute {")
+                    .append(NAME, name).append("})")
+                    .append(" MERGE (a)-[:IS_SENSITIVE]->(:Sensitivity {")
+                    .append(NAME, "sensitiveName", sensitiveName).comma()
+                    .append(TYPE, type).append("})");
+
+            StatementResult statementResult = nc.execute(cypher);
+            stats.sensitive += statementResult.summary().counters().nodesCreated();
+            stats.relations += statementResult.summary().counters().relationshipsCreated();
+        });
     }
 
     private void mergeAttributeRelation(ResourceAddress address, String source, String target, String relation) {
