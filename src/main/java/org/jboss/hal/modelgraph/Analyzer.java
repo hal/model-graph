@@ -343,7 +343,7 @@ class Analyzer {
                     .append(ADDRESS, address.toString()).append("})")
                     .append("-[:HAS_ATTRIBUTE]->(a:Attribute {")
                     .append(NAME, name).append("})")
-                    .append(" MERGE (a)-[:IS_SENSITIVE]->(:Sensitivity {")
+                    .append(" MERGE (a)-[:IS_SENSITIVE]->(:Constraint {")
                     .append(NAME, "sensitiveName", sensitiveName).comma()
                     .append(TYPE, type).append("})");
 

@@ -33,9 +33,9 @@ There are six main nodes in the database:
 
     The parameter node holds information about the request properties and has similar properties as the `attribute` node.
     
-1. Sensitivity
+1. Constraint
 
-    The sensitivity node holds information about the sensitive constraints of attributes. Each sensitivity has a name and a type. 
+    The constraint node holds information about attribute constraints. Each constraint has a name and a type. 
 
 1. Capability
   
