@@ -2,7 +2,7 @@
 
 # Script to download and start the latest WildFly, process the management model and swap the graph database.
 
-MODEL_GRAPH_VERSION=0.1.0
+MODEL_GRAPH_VERSION=0.2.0
 MODEL_GRAPH_DB=7474
 PROCESS_LOG=process.log
 WILDFLY_ADMIN=9990
