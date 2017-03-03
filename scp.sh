@@ -9,10 +9,9 @@ scp src/conf/7480/neo4j.conf neo4j@model-graph:/home/neo4j/neo4j-instances/ports
 
 # shell scripts
 scp src/sh/wf-nightly.sh neo4j@model-graph:/home/neo4j
+scp src/sh/spinner.sh neo4j@model-graph:/home/neo4j
 
 # html
-scp src/html/model-graph.png root@model-graph:/var/www/html
 scp src/html/index.html root@model-graph:/var/www/html
-scp src/html/9.html root@model-graph:/var/www/html
-scp src/html/10.html root@model-graph:/var/www/html
-scp src/html/nightly.html root@model-graph:/var/www/html
+scp src/html/model-graph.html root@model-graph:/var/www/html
+scp src/html/model-graph.png root@model-graph:/var/www/html
