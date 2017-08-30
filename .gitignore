@@ -7,7 +7,7 @@
 .classpath
 .wakatime-project
 dependency-reduced-pom.xml
-gwt-unitCache
 hs_err*
 out
 target
+tmp

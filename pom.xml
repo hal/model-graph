@@ -30,11 +30,10 @@
     </parent>
 
     <groupId>org.jboss.hal</groupId>
-    <artifactId>model-graph</artifactId>
+    <artifactId>model-graph-parent</artifactId>
     <version>0.2.0</version>
     <name>Management Model Graph</name>
-    <description>Tool to analyze the management model of a WildFly standalone or domain instance</description>
-    <packaging>jar</packaging>
+    <packaging>pom</packaging>
 
     <organization>
         <name>JBoss, a division of Red Hat</name>
@@ -60,99 +59,33 @@
     </licenses>
 
     <properties>
-        <guava.version>20.0</guava.version>
-        <jboss.dmr.version>1.4.0.Beta1</jboss.dmr.version>
+        <!-- dependencies -->
+        <guava.version>23.0</guava.version>
+        <jboss.dmr.version>1.4.1.Final</jboss.dmr.version>
         <jcommander.version>1.58</jcommander.version>
         <junit.version>4.12</junit.version>
-        <neo4j.driver.version>1.1.1</neo4j.driver.version>
-        <slf4j.version>1.7.21</slf4j.version>
-        <wildfly.version>3.0.0.Alpha22</wildfly.version>
+        <neo4j.driver.version>1.4.3</neo4j.driver.version>
+        <picocli.version>1.0.1</picocli.version>
+        <slf4j.version>1.7.25</slf4j.version>
+        <wildfly.core.version>3.0.1.Final</wildfly.core.version>
+        <wildfly.9.version>9.0.2.Final</wildfly.9.version>
+        <wildfly.10.version>10.1.0.Final</wildfly.10.version>
+        <wildfly.11.version>11.0.0.CR1</wildfly.11.version>
 
+        <!-- plugins -->
+        <docker.maven.plugin>0.22.1</docker.maven.plugin>
+
+        <!-- settings -->
         <maven.compiler.target>1.8</maven.compiler.target>
         <maven.compiler.source>1.8</maven.compiler.source>
-
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
     </properties>
 
-    <dependencies>
-        <dependency>
-            <groupId>com.beust</groupId>
-            <artifactId>jcommander</artifactId>
-            <version>${jcommander.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>com.google.guava</groupId>
-            <artifactId>guava</artifactId>
-            <version>${guava.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>org.jboss</groupId>
-            <artifactId>jboss-dmr</artifactId>
-            <version>${jboss.dmr.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>org.wildfly.core</groupId>
-            <artifactId>wildfly-controller-client</artifactId>
-            <version>${wildfly.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>org.neo4j.driver</groupId>
-            <artifactId>neo4j-java-driver</artifactId>
-            <version>${neo4j.driver.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>org.slf4j</groupId>
-            <artifactId>slf4j-api</artifactId>
-            <version>${slf4j.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>org.slf4j</groupId>
-            <artifactId>slf4j-simple</artifactId>
-            <version>${slf4j.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>junit</groupId>
-            <artifactId>junit</artifactId>
-            <version>${junit.version}</version>
-            <scope>test</scope>
-        </dependency>
-    </dependencies>
-
-    <build>
-        <plugins>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-shade-plugin</artifactId>
-                <executions>
-                    <execution>
-                        <phase>package</phase>
-                        <goals>
-                            <goal>shade</goal>
-                        </goals>
-                        <configuration>
-                            <filters>
-                                <filter>
-                                    <artifact>*:*</artifact>
-                                    <excludes>
-                                        <exclude>META-INF/*.SF</exclude>
-                                        <exclude>META-INF/*.DSA</exclude>
-                                        <exclude>META-INF/*.RSA</exclude>
-                                    </excludes>
-                                </filter>
-                            </filters>
-                            <transformers>
-                                <transformer
-                                        implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
-                                    <mainClass>org.jboss.hal.modelgraph.Main</mainClass>
-                                </transformer>
-                            </transformers>
-                        </configuration>
-                    </execution>
-                </executions>
-            </plugin>
-        </plugins>
-    </build>
+    <modules>
+        <module>analyzer</module>
+        <module>docker</module>
+    </modules>
 
     <repositories>
         <repository>
