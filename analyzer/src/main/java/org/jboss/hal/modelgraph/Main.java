@@ -70,22 +70,22 @@ public class Main {
             commandLine.parse(args);
             if (main.helpRequested) {
                 commandLine.usage(System.err);
-                System.exit(-1);
+                System.exit(2);
             }
             if (main.versionInfoRequested) {
-                commandLine.printVersionHelp(System.err, Ansi.AUTO, readBuildInfos());
-                System.exit(-1);
+                commandLine.printVersionHelp(System.err, Ansi.AUTO, readVersionInfos());
+                System.exit(0);
             }
             main.run();
 
         } catch (Exception ex) {
             System.err.println(ex.getMessage());
             commandLine.usage(System.err, Ansi.AUTO);
-            System.exit(-1);
+            System.exit(1);
         }
     }
 
-    private static Object[] readBuildInfos() {
+    private static Object[] readVersionInfos() {
         Properties properties = new Properties();
         try {
             properties.load(Main.class.getResourceAsStream("/version.properties"));

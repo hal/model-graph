@@ -6,7 +6,7 @@ Tool which reads the management model from a WildFly instance and stores it as a
 
 The tool creates the following graph:
 
-![Model Graph](src/html/model-graph.png)
+![Model Graph](model-graph.png)
 
 There are six main nodes in the database:
 
