@@ -65,5 +65,3 @@ This starts three Neo4j instances using the following ports:
 - WildFly 9:  
   http://localhost:7409  
   bolt://localhost:7609
-
-When opening the Neo4j browser use the bolt ports and `neo4j:neo4j` to connect to the database. 
