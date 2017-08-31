@@ -21,7 +21,7 @@ There are six main nodes in the database:
     | /subsystem=datasources/data-source=*             | data-source |
     | /subsystem=mail/mail-session=default/server=imap | server=imap |
     
-    There's a `singleton` flag you can use to explicitly query for (non-)singleton resources. Child resources have a `CHILD_OF` relationship with their parent. If a resource declares a capability, there's a `DECLARES_CAPABILITY` relationship. Finally the resource has a `HAS_ATTRIBUTE` relationship with its attributes and a `PROVIDES` relationship with its operations..
+    There's a `singleton` flag you can use to explicitly query for (non-)singleton resources. Child resources have a `CHILD_OF` relationship with their parent. If a resource declares a capability, there's a `DECLARES_CAPABILITY` relationship. Finally the resource has a `HAS_ATTRIBUTE` relationship with its attributes and a `PROVIDES` relationship with its operations.
     
 1. Attribute
 
