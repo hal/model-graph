@@ -1,0 +1,21 @@
+version: "3"
+services:
+  nginx:
+    image: "hpehl/model-graph-nginx"
+    ports:
+      - "8080:80"
+  wf11:
+    image: "model-graph-wildfly"
+    ports:
+      - "7411:7474"
+      - "7611:7687"
+  wf10:
+    image: "model-graph-wildfly:10.1.0.Final"
+    ports:
+      - "7410:7474"
+      - "7610:7687"
+  wf9:
+    image: "model-graph-wildfly:9.0.2.Final"
+    ports:
+      - "7409:7474"
+      - "7609:7687"
