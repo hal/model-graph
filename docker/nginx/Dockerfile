@@ -1,6 +1,6 @@
 FROM nginx
 
-MAINTAINER Harald Pehl "harald.pehl@gmail.com"
+LABEL maintainer="Harald Pehl <harald.pehl@gmail.com>"
 
-COPY conf/model-graph.conf /etc/nginx/conf.d/
+COPY conf/nginx.conf /etc/nginx/
 COPY html /usr/share/nginx/html/
