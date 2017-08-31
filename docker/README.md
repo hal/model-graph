@@ -18,7 +18,7 @@ docker run --publish 8080:80 hpehl/model-graph-nginx
 
 The `compose` folder contains docker compose scripts to start Neo4j and Nginx.  
 
-### Single Version
+### Single WildFly Version
 
 Please note that you can only use one of the `compose/wf<n>` scripts at a time. All of them use the standard ports http://localhost:7474 and bolt://localhost:7687.
 
@@ -43,7 +43,7 @@ Please note that you can only use one of the `compose/wf<n>` scripts at a time. 
     docker-compose up
     ```
 
-### All Versions
+### All WildFly Versions
 
 Useful when you want to compare resources between different WildFly versions.
 
