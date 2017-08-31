@@ -20,14 +20,14 @@
         <slide class="row-fluid">
             <div class="col-sm-8">
                 <h3>Main Nodes</h3>
-                <p style="margin-top: 1em">There are five nodes in the database:</p>
+                <p style="margin-top: 1em">There are six nodes in the database:</p>
                 <dl class="dl-horizontal">
                     <dt><strong>Resource</strong></dt>
                     <dd>
                         <p>The resource node holds the fully qualified address and the name of the resource. In most cases the name of a resource is the resource type. For singleton resources the name consists of the type and the name:</p>
                         <ul>
-                            <li>/subsystem=datasources/data-source=* &larr; data-source</li>
-                            <li>/subsystem=mail/mail-session=default/server=imap &larr; server=imap</li>
+                            <li style="list-style: none">/subsystem=datasources/data-source=* &rarr; data-source</li>
+                            <li style="list-style: none">/subsystem=mail/mail-session=default/server=imap &rarr; server=imap</li>
                         </ul>
                         <p style="margin-top: 1em">There's a
                             <code>singleton</code> flag you can use to explicitly query for (non-)singleton resources. Child resources have a
@@ -65,6 +65,7 @@
                     <dd><p>The capability node holds just the name of the capability.</p>
                     </dd>
                 </dl>
+                <p style="margin-top: 1em">In addition the database contains a <code>Version</code> node with information about the WildFly and management model version.</p>
             </div>
             <div class="col-sm-4">
                 <h3>Properties</h3>
