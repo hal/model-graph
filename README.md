@@ -4,7 +4,7 @@ This repository contains
 
 - a [command line tool](analyzer/) which reads the management model from a WildFly instance and stores it as a graph in a [Neo4j](https://neo4j.com/) database.
 - [Docker images](docker/) with graph databases for WildFly 9, 10 and 11.
-- scripts to use the graph databases on [OpenShift](openshift/).
+- [scripts](openshift/) to use the graph databases on OpenShift.
 
 ## Graph Database
 
