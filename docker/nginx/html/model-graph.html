@@ -47,7 +47,8 @@
                             <code>singleton</code> flag you can use to explicitly query for (non-)singleton resources. Child resources have a
                             <code>CHILD_OF</code> relationship with their parent. If a resource declares a capability, there's a
                             <code>DECLARES_CAPABILITY</code> relationship. Finally the resource has a
-                            <code>HAS_ATTRIBUTE</code> relationship with its attributes.
+                            <code>HAS_ATTRIBUTE</code> relationship with its attributes and a
+                            <code>PROVIDES</code> relationship with its operations.
                         </p>
                     </dd>
                     <dt>Attribute</dt>
@@ -63,7 +64,7 @@
                             <code>add</code> operation). Use the flag
                             <code>global</code> to distinguish between global and resource dependent operations. Operations have an optional
                             <code>return</code> and
-                            <code>value-type</code>property. If the operation accepts request properties, there's a
+                            <code>value-type</code>property. If the operation accepts request properties, there's an
                             <code>ACCEPTS</code> relationship with its parameters.</p>
                     </dd>
                     <dt>Parameter</dt>
@@ -104,92 +105,106 @@
             </div>
         </slide>
         <slide class="row-fluid">
-            <h3>Queries</h3>
-            <p style="margin-top: 10px">Here are a few examples how to query the database:</p>
-            <h4>Resources</h4>
-            <p style="margin-top: 10px">Show the <code>alternatives</code> and <code>requires</code> relations of the
-                <code>connection-definitions</code> resource:</p>
-            <figure>
+            <div class="col-sm-12">
+                <h3>Queries</h3>
+                <p style="margin-top: 10px">Here are a few examples how to query the database:</p>
+
+                <h4>Resources</h4>
+
+                <p style="margin-top: 10px">Show the <code>alternatives</code> and <code>requires</code> relations of the
+                    <code>connection-definitions</code> resource:</p>
+                <figure>
                 <pre class="pre-scrollable code runnable">MATCH g=(r:Resource)-->(:Attribute)-[:ALTERNATIVE|:REQUIRES]->(:Attribute)
 WHERE r.name = "connection-definitions"
 RETURN g
 </pre>
-            </figure>
-            <h4>Attributes</h4>
-            <p style="margin-top: 10px">The top twenty of resources with lots of attributes::</p>
-            <figure>
+                </figure>
+
+                <h4>Attributes</h4>
+
+                <p style="margin-top: 10px">The top twenty of resources with lots of attributes:</p>
+                <figure>
                 <pre class="pre-scrollable code runnable">MATCH (r:Resource)-[has:HAS_ATTRIBUTE]->()
 RETURN r.address, COUNT(has) as attributes
 ORDER BY attributes DESC
 LIMIT 20</pre>
-            </figure>
+                </figure>
 
-            <p>List all attributes which match the regexp .*socket-binding.*, but do not have a capability reference:</p>
-            <figure>
+                <p>List all attributes which match the regexp <code>.*socket-binding.*</code>, but do not have a capability reference:</p>
+                <figure>
                 <pre class="pre-scrollable code runnable">MATCH (r:Resource)-->(a:Attribute)
 WHERE a.name =~ ".*socket-binding.*" AND
 NOT (a)-[:REFERENCES_CAPABILITY]-()
 RETURN r.address, a.name</pre>
-            </figure>
+                </figure>
 
-            <p>List all attributes which are both required and nillable together with their alternatives:</p>
-            <figure>
+                <p>List all attributes which are both required and nillable together with their alternatives:</p>
+                <figure>
                 <pre class="pre-scrollable code runnable">MATCH (r:Resource)-->(a:Attribute)-[:ALTERNATIVE]-(alt)
 WHERE a.required = true AND
       a.nillable = true AND
       a.storage = "configuration"
 RETURN r.address, a.name, alt.name</pre>
-            </figure>
-            <p>List all attributes which are both required and nillable, but which don't have alternatives:</p>
-            <figure>
+                </figure>
+
+                <p>List all attributes which are both required and nillable, but which don't have alternatives:</p>
+                <figure>
                 <pre class="pre-scrollable code runnable">MATCH (r:Resource)-->(a:Attribute)
 WHERE NOT (a)-[:ALTERNATIVE]-() AND
       a.required = true AND
       a.nillable = true AND
       a.storage = "configuration"
 RETURN r.address, a.name</pre>
-            </figure>
-            <p>List all attributes which are required and have a default value:</p>
-            <figure>
+                </figure>
+
+                <p>List all attributes which are required and have a default value:</p>
+                <figure>
                 <pre class="pre-scrollable code runnable">MATCH (r:Resource)-->(a:Attribute)
 WHERE a.required = true AND
       exists(a.default)
 RETURN r.address, a.name, a.default</pre>
-            </figure>
-            <p>List all deprecated attributes:</p>
-            <figure>
+                </figure>
+
+                <p>List all deprecated attributes:</p>
+                <figure>
                 <pre class="pre-scrollable code runnable">MATCH (r:Resource)-->(a:Attribute)
 WHERE exists(a.deprecated)
 RETURN r.address, a.name, a.since
 ORDER BY a.since DESC</pre>
-            </figure>
-            <h4>Operations</h4>
-            <p style="margin-top: 10px">List all resources with more than five non-global operations:</p>
-            <figure>
+                </figure>
+
+                <h4>Operations</h4>
+
+                <p style="margin-top: 10px">List all resources with more than five non-global operations:</p>
+                <figure>
                 <pre class="pre-scrollable code runnable">MATCH (r:Resource)-[p:PROVIDES]->(o:Operation)
 WHERE NOT o.global
 WITH r, count(p) as operations
 WHERE operations > 5
 RETURN r.address, operations
 ORDER BY operations DESC</pre>
-            </figure>
-            <p>List all `add` operations with more than two required parameters:</p>
-            <figure>
+                </figure>
+
+                <p>List all <code>add</code> operations with more than two required parameters:</p>
+                <figure>
                 <pre class="pre-scrollable code runnable">MATCH (r:Resource)-[:PROVIDES]->(o:Operation)-[a:ACCEPTS]->(p:Parameter)
 WHERE o.name = "add" AND p.required
 WITH r, o, count(a) as parameters
 WHERE parameters > 2
 RETURN r.address, o.name, parameters
 ORDER BY parameters DESC</pre>
-            </figure>
-            <h4>Version</h4>
-            <p style="margin-top: 10px">Show the release and management model version:</p>
-            <figure>
+                </figure>
+
+                <h4>Version</h4>
+
+                <p style="margin-top: 10px">Show the release and management model version:</p>
+                <figure>
                 <pre class="pre-scrollable code runnable">MATCH (v:Version)
 RETURN v.`release-codename` + " " + v.`release-version` as Release,
        v.`management-major-version` + "." + v.`management-minor-version` + "." + v.`management-micro-version` as `Model Version`
 </pre>
-            </figure>
+                </figure>
+            </div>
         </slide>
     </carousel>
 </article>

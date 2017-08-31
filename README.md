@@ -14,26 +14,26 @@ There are six main nodes in the database:
 
 1. Resource
     
-    The resource node holds the fully qualified address and the name of the resource. The name of a resource is the resource type. For singleton resources the name consists of the type and the name: 
+    The resource node holds the fully qualified address and the name of the resource. In most cases the name of a resource is the resource type. For singleton resources the name consists of the type and the name:
 
     | Address                                          | Name        |
     |--------------------------------------------------|-------------|
     | /subsystem=datasources/data-source=*             | data-source |
     | /subsystem=mail/mail-session=default/server=imap | server=imap |
     
-    Parent resources have a `CHILD_OF` relationship with their children. This makes traversing through the model tree very convenient.
-
+    There's a `singleton` flag you can use to explicitly query for (non-)singleton resources. Child resources have a `CHILD_OF` relationship with their parent. If a resource declares a capability, there's a `DECLARES_CAPABILITY` relationship. Finally the resource has a `HAS_ATTRIBUTE` relationship with its attributes and a `PROVIDES` relationship with its operations..
+    
 1. Attribute
 
-    The attribute node holds most of the attribute's metadata such as type, required, nillable or storage. 
+    The attribute node holds most of the attribute's metadata such as type, required, nillable or storage. Attributes can have relationships to other attributes of the same resource. This is modeled using the `ALTERNATIVE` and `REQUIRES` relationship. Finally attributes which reference a capability have a `REFERENCES_CAPABILITY` relation. 
 
 1. Operation
 
-    The operation node holds information about an operation. Global operations are stored only once (except the `add` operation). Use the flag `global` to distinguish between global and resource dependent operations.
+    The operation node holds information about an operation. Global operations are stored only once (except the add operation). Use the flag `global` to distinguish between global and resource dependent operations. Operations have an optional `return` and  `value-type` property. If the operation accepts request properties, there's an `ACCEPTS` relationship with its parameters.
 
 1. Parameter
 
-    The parameter node holds information about the request properties and has similar properties as the `attribute` node.
+    The parameter node holds information about the request properties. The properties and relationships of the parameter node are similar to the attribute node.
     
 1. Constraint
 
