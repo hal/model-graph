@@ -28,16 +28,16 @@ Options:
                                 as default port. Omit to connect to a local
                                 WildFly instance at localhost:9990.
   -u, --wildfly-user=<wildFlyUsername>
-                              WildFly username
+                              WildFly username. Defaults to 'admin'.
   -p, --wildfly-password=<wildFlyPassword>
-                              WildFly password
+                              WildFly password. Defaults to 'admin'.
   -n, --neo4j=<neo4j>         Neo4j database as <server>[:<port>] with 7687 as
                                 default port. Omit to connect to a local Neo4j
                                 database at localhost:7687.
   -s, --neo4j-user=<neo4jUsername>
-                              Neo4j username
+                              Neo4j username. Defaults to 'neo4j'.
   -t, --neo4j-password=<neo4jPassword>
-                              Neo4j password
+                              Neo4j password. Defaults to 'neo4j'.
   -c, --clean                 remove all indexes, nodes, relationships and
                                 properties before analysing the management
                                 model tree.

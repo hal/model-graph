@@ -32,20 +32,20 @@ public class Main {
             description = "WildFly instance as <server>[:<port>] with 9990 as default port. Omit to connect to a local WildFly instance at localhost:9990.")
     HostAndPort wildFly;
 
-    @Option(names = {"-u", "--wildfly-user"}, description = "WildFly username")
+    @Option(names = {"-u", "--wildfly-user"}, description = "WildFly username. Defaults to 'admin'.")
     String wildFlyUsername = "admin";
 
-    @Option(names = {"-p", "--wildfly-password"}, description = "WildFly password")
+    @Option(names = {"-p", "--wildfly-password"}, description = "WildFly password. Defaults to 'admin'.")
     String wildFlyPassword = "admin";
 
     @Option(names = {"-n", "--neo4j"},
             description = "Neo4j database as <server>[:<port>] with 7687 as default port. Omit to connect to a local Neo4j database at localhost:7687.")
     HostAndPort neo4j;
 
-    @Option(names = {"-s", "--neo4j-user"}, description = "Neo4j username")
+    @Option(names = {"-s", "--neo4j-user"}, description = "Neo4j username. Defaults to 'neo4j'.")
     String neo4jUsername = "neo4j";
 
-    @Option(names = {"-t", "--neo4j-password"}, description = "Neo4j password")
+    @Option(names = {"-t", "--neo4j-password"}, description = "Neo4j password. Defaults to 'neo4j'.")
     String neo4jPassword = "neo4j";
 
     @Option(names = {"-c", "--clean"},
