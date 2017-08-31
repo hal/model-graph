@@ -1,12 +1,14 @@
 # WildFly Model Graph
 
-Tool which reads the management model from a WildFly instance and stores it as a graph in a [Neo4j](https://neo4j.com/) database. If not specified otherwise the tool starts at the root resource and reads the resource descriptions in a recursive way. 
+This repository contains 
 
-## Graph
+- a [command line tool](analyzer/README.md) which reads the management model from a WildFly instance and stores it as a graph in a [Neo4j](https://neo4j.com/) database.
+- [Docker images](docker/README.md) with graph databases for WildFly 9, 10 and 11.
+- scripts to use the graph databases on [OpenShift](openshift/README.md).
 
-The tool creates the following graph:
+## Graph Database
 
-![Model Graph](model-graph.png)
+![Model Graph](docker/nginx/html/model-graph.png)
 
 There are six main nodes in the database:
 
@@ -43,77 +45,7 @@ There are six main nodes in the database:
 
 In addition the database contains a `Version` node with information about the WildFly and management model version. See the Neo4j browser for the complete list of nodes, relations and properties. 
  
-## Get Started
-
-### Online Version
-
-The WildFly public CI hosts databases for the most recent WildFly versions. Head over to https://ci.wildfly.org/model-graph/ and choose between 
-
-- WildFly Nightly: https://ci.wildfly.org/model-graph/nightly/browser/
-- WildFly 10.1.0.Final: https://ci.wildfly.org/model-graph/10.x/browser/
-- WildFly 9.0.2.Final: https://ci.wildfly.org/model-graph/9.x/browser/
-
-### BYO (Build Your Own)
-
-If you want to have full control, you can create a local database. You need a running WildFly and Neo4j instance. To install Neo4j, download it from https://neo4j.com/download/ or use `brew install neo4j`. Start Neo4j using `neo4j start` from the command line and open [http://localhost:7474/](http://localhost:7474/). If you login for the first time, you have to change your password. To change it back to the default use 
-
-```cypher
-CALL dbms.changePassword('neo4j')
-```
-
-and refresh your browser. This makes it easier to use the default options when analysing the model tree. Anyway you can specify the WildFly and Neo4j instance using one of the command line options:
-
-```
-Usage: <main class> [options]
-
-  Options:
-    -help, --help
-      Shows this help
-
-    -clean
-      Removes all indexes, nodes, relationships and properties before 
-      analysing the model tree.
-
-    -neo4j
-      Neo4j database as <server>[:<port>] with 7687 as default port. Omit to 
-      connect to a local Neo4j database at localhost:7687.
-
-    -neo4j-password
-      Neo4j password
-      Default: neo4j
-
-    -neo4j-user
-      Neo4j username
-      Default: neo4j
-
-    -resource
-      The root resource to analyse.
-      Default: /
-
-    -wildfly
-      WildFly instance as <server>[:<port>] with 9990 as default port. Omit to 
-      connect to a local WildFly instance at localhost:9990.
-
-    -wildfly-password
-      WildFly password
-      Default: admin
-
-    -wildfly-user
-      WildFly username
-      Default: admin
-```
-
-If everything runs locally using the default ports and credentials, you just need to run 
-
-```bash
-java -jar model-graph-0.2.0.jar
-```
-
-The tool will populate the Neo4j instance with nodes, relations and properties of the specified resource (sub)tree. Please make sure the Neo4j instance is empty or use the `-clean` option to remove existing data. 
-
-If you want to analyse different management model versions, you need to setup multiple Neo4j instances and point the tool to the relevant instance. After the tool has finished, head to [http://localhost:7474/](http://localhost:7474/) and enter some queries. 
-
-## Examples
+## Queries
 
 Here are a few examples how to query the database:
 

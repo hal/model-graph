@@ -15,8 +15,8 @@ import picocli.CommandLine.Option;
 import picocli.CommandLine.Parameters;
 
 @SuppressWarnings({"FieldCanBeLocal", "unused", "WeakerAccess"})
-@Command(name = "analyzer",
-        version = {"Analyzer %1$s", "Build %2$s", "%3$s"},
+@Command(name = "model-graph-analyzer",
+        version = {"Model Graph Analyzer %1$s", "Build %2$s", "%3$s"},
         sortOptions = false,
         descriptionHeading = "%n",
         parameterListHeading = "%nParameters:%n",
