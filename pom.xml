@@ -63,7 +63,6 @@
         <!-- dependencies -->
         <guava.version>23.0</guava.version>
         <jboss.dmr.version>1.4.1.Final</jboss.dmr.version>
-        <jcommander.version>1.58</jcommander.version>
         <junit.version>4.12</junit.version>
         <neo4j.driver.version>1.4.3</neo4j.driver.version>
         <picocli.version>1.0.1</picocli.version>
