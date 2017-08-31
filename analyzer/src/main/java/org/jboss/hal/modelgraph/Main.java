@@ -1,63 +1,102 @@
 package org.jboss.hal.modelgraph;
 
-import com.beust.jcommander.JCommander;
-import com.beust.jcommander.Parameter;
+import java.io.IOException;
+import java.util.Properties;
+
 import com.google.common.net.HostAndPort;
 import org.jboss.hal.modelgraph.dmr.WildFlyClient;
 import org.jboss.hal.modelgraph.neo4j.Neo4jClient;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import picocli.CommandLine;
+import picocli.CommandLine.Command;
+import picocli.CommandLine.Help.Ansi;
+import picocli.CommandLine.Option;
+import picocli.CommandLine.Parameters;
 
-/**
- * @author Harald Pehl
- */
-@SuppressWarnings("unused")
+@SuppressWarnings({"FieldCanBeLocal", "unused", "WeakerAccess"})
+@Command(name = "analyzer",
+        version = {"Analyzer %1$s", "Build %2$s", "%3$s"},
+        sortOptions = false,
+        descriptionHeading = "%n",
+        parameterListHeading = "%nParameters:%n",
+        optionListHeading = "%nOptions:%n",
+        headerHeading = "%n",
+        footerHeading = "%n",
+        description = "Reads the management model from a WildFly instance and stores it as a graph in a Neo4j database")
 public class Main {
 
     private static final Logger logger = LoggerFactory.getLogger(Main.class);
 
-    @Parameter(names = "-wildfly",
-            converter = HostAndPortConverter.class,
-            validateWith = HostAndPortValidator.class,
+    @Option(names = {"-w", "--wildfly"},
             description = "WildFly instance as <server>[:<port>] with 9990 as default port. Omit to connect to a local WildFly instance at localhost:9990.")
-    private HostAndPort wildFly;
+    HostAndPort wildFly;
 
-    @Parameter(names = "-wildfly-user", description = "WildFly username")
-    private String wildFlyUsername = "admin";
+    @Option(names = {"-u", "--wildfly-user"}, description = "WildFly username")
+    String wildFlyUsername = "admin";
 
-    @Parameter(names = "-wildfly-password", description = "WildFly password")
-    private String wildFlyPassword = "admin";
+    @Option(names = {"-p", "--wildfly-password"}, description = "WildFly password")
+    String wildFlyPassword = "admin";
 
-    @Parameter(names = "-neo4j",
-            converter = HostAndPortConverter.class,
-            validateWith = HostAndPortValidator.class,
+    @Option(names = {"-n", "--neo4j"},
             description = "Neo4j database as <server>[:<port>] with 7687 as default port. Omit to connect to a local Neo4j database at localhost:7687.")
-    private HostAndPort neo4j;
+    HostAndPort neo4j;
 
-    @Parameter(names = "-neo4j-user", description = "Neo4j username")
-    private String neo4jUsername = "neo4j";
+    @Option(names = {"-s", "--neo4j-user"}, description = "Neo4j username")
+    String neo4jUsername = "neo4j";
 
-    @Parameter(names = "-neo4j-password", description = "Neo4j password")
-    private String neo4jPassword = "neo4j";
+    @Option(names = {"-t", "--neo4j-password"}, description = "Neo4j password")
+    String neo4jPassword = "neo4j";
 
-    @Parameter(names = {"-clean"}, description = "Removes all indexes, nodes, relationships and properties before analysing the model tree.")
-    private boolean clean = false;
+    @Option(names = {"-c", "--clean"},
+            description = "remove all indexes, nodes, relationships and properties before analysing the management model tree.")
+    boolean clean = false;
 
-    @Parameter(names = "-resource", description = "The root resource to analyse.")
-    private String resource = "/";
+    @Option(names = {"-V", "--version"}, versionHelp = true, description = "display version information and exit")
+    boolean versionInfoRequested;
 
-    @Parameter(names = {"-help", "--help"}, help = true, description = "Shows this help")
-    private boolean help;
+    @Option(names = {"-h", "--help"}, usageHelp = true, description = "display this help message and exit")
+    boolean helpRequested;
 
-    public static void main(String[] args) {
+    @Parameters(description = "the root resource to analyse.")
+    String resource = "/";
+
+    public static void main(String[] args) throws Exception {
         Main main = new Main();
-        JCommander jCommander = new JCommander(main, args);
+        CommandLine commandLine = new CommandLine(main)
+                .registerConverter(HostAndPort.class, HostAndPort::fromString);
 
-        if (main.help) {
-            jCommander.usage();
-        } else {
+        try {
+            commandLine.parse(args);
+            if (main.helpRequested) {
+                commandLine.usage(System.err);
+                System.exit(-1);
+            }
+            if (main.versionInfoRequested) {
+                commandLine.printVersionHelp(System.err, Ansi.AUTO, readBuildInfos());
+                System.exit(-1);
+            }
             main.run();
+
+        } catch (Exception ex) {
+            System.err.println(ex.getMessage());
+            commandLine.usage(System.err, Ansi.AUTO);
+            System.exit(-1);
         }
+    }
+
+    private static Object[] readBuildInfos() {
+        Properties properties = new Properties();
+        try {
+            properties.load(Main.class.getResourceAsStream("/version.properties"));
+        } catch (IOException e) {
+            logger.error("Unable to read version infos: " + e.getMessage());
+        }
+        return new Object[]{
+                properties.getProperty("version", "n/a"),
+                properties.getProperty("build.date", "n/a"),
+                properties.getProperty("build.url", "n/a")
+        };
     }
 
     private void run() {
@@ -85,7 +124,6 @@ public class Main {
         }
         return safe;
     }
-
 
     private void finished(Analyzer analyzer, Neo4jClient nc) {
         logger.info("{}", analyzer.stats());

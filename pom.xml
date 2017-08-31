@@ -33,6 +33,7 @@
     <artifactId>model-graph-parent</artifactId>
     <version>0.2.0</version>
     <name>Management Model Graph</name>
+    <url>https://github.com/hal/model-graph</url>
     <packaging>pom</packaging>
 
     <organization>

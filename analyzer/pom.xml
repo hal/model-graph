@@ -59,7 +59,7 @@
         <dependency>
             <groupId>org.wildfly.core</groupId>
             <artifactId>wildfly-controller-client</artifactId>
-            <version>${wildfly.version}</version>
+            <version>${wildfly.core.version}</version>
         </dependency>
         <dependency>
             <groupId>org.neo4j.driver</groupId>
@@ -85,6 +85,13 @@
     </dependencies>
 
     <build>
+        <resources>
+            <resource>
+                <directory>src/main/resources</directory>
+                <filtering>true</filtering>
+            </resource>
+        </resources>
+
         <plugins>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
