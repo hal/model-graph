@@ -1,8 +1,5 @@
 package org.jboss.hal.modelgraph;
 
-/**
- * @author Harald Pehl
- */
 class Stats {
 
     long resources;

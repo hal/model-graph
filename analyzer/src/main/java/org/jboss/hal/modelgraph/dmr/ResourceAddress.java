@@ -23,11 +23,7 @@ import com.google.common.base.Strings;
 import org.jboss.dmr.ModelNode;
 import org.jboss.dmr.Property;
 
-/**
- * Represents a fully qualified DMR address ready to be put into a DMR operation.
- *
- * @author Harald Pehl
- */
+/** Represents a fully qualified DMR address ready to be put into a DMR operation. */
 public class ResourceAddress extends ModelNode {
 
     public static ResourceAddress of(final String address) {

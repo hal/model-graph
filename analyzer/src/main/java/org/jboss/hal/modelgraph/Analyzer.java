@@ -23,9 +23,6 @@ import static java.util.Collections.emptyList;
 import static java.util.stream.Collectors.toList;
 import static org.jboss.hal.modelgraph.dmr.ModelDescriptionConstants.*;
 
-/**
- * @author Harald Pehl
- */
 class Analyzer {
 
     private static final int MAX_DEPTH = 10;

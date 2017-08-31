@@ -17,9 +17,6 @@ import org.slf4j.LoggerFactory;
 
 import static org.jboss.hal.modelgraph.dmr.ModelDescriptionConstants.*;
 
-/**
- * @author Harald Pehl
- */
 public class WildFlyClient implements AutoCloseable {
 
     private static final Logger logger = LoggerFactory.getLogger(WildFlyClient.class);

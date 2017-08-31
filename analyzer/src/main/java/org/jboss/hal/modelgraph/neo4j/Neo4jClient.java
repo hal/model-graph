@@ -13,9 +13,6 @@ import org.neo4j.driver.v1.exceptions.DatabaseException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-/**
- * @author Harald Pehl
- */
 public class Neo4jClient implements AutoCloseable {
 
     private static final Logger logger = LoggerFactory.getLogger(Neo4jClient.class);

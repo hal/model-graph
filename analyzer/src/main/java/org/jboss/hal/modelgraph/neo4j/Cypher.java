@@ -6,9 +6,6 @@ import java.util.Map;
 import org.neo4j.driver.v1.Value;
 import org.neo4j.driver.v1.Values;
 
-/**
- * @author Harald Pehl
- */
 public class Cypher {
 
     private final StringBuilder builder;

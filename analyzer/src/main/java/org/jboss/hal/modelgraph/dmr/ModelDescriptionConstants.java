@@ -35,12 +35,7 @@
 
 package org.jboss.hal.modelgraph.dmr;
 
-/**
- * String constants frequently used in model descriptions and DMR operations.
- *
- * @author Brian Stansberry
- * @author Harald Pehl
- */
+/** String constants frequently used in model descriptions and DMR operations. */
 @SuppressWarnings({"DuplicateStringLiteralInspection", "SpellCheckingInspection"})
 public interface ModelDescriptionConstants {
 

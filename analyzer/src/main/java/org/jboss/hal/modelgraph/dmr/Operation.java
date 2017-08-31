@@ -23,9 +23,6 @@ import org.jboss.dmr.Property;
 import static org.jboss.hal.modelgraph.dmr.ModelDescriptionConstants.ADDRESS;
 import static org.jboss.hal.modelgraph.dmr.ModelDescriptionConstants.OP;
 
-/**
- * @author Harald Pehl
- */
 public class Operation extends ModelNode {
 
     public static class Builder {
