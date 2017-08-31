@@ -51,4 +51,4 @@ If everything runs locally using the default ports and credentials, you just nee
 java -jar model-graph-analyzer-0.2.0.jar /
 ```
 
-This will populate the Neo4j instance with nodes, relations and properties of the specified resource (sub)tree. Please make sure the Neo4j instance is empty or use the `--clean` option to remove existing data. After the tool has finished, head to [http://localhost:7474/](http://localhost:7474/) and enter some queries. 
+This will populate the Neo4j instance with nodes, relations and properties of the specified resource (sub)tree. Please make sure the Neo4j instance is empty or use the `--clean` option to remove existing data. After the tool has finished, head to [http://localhost:7474/](http://localhost:7474/) and enter some [queries](https://github.com/hal/model-graph#queries). 
