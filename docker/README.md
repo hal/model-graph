@@ -1,8 +1,9 @@
 # Docker 
 
-Docker images to run Neo4j with pre-populated databases containing the management model of WildFly 9, 10 and 11 using `standalone-full-ha.xml`. The following images are available:
+Docker images to run Neo4j with pre-populated databases containing the management model of WildFly 9, 10, 11 and latest using `standalone-full-ha.xml`. The following images are available:
 
-- [`hpehl/model-graph-wildfly`](https://hub.docker.com/r/hpehl/model-graph-wildfly/) (WildFly 11.0.0.CR1)
+- [`hpehl/model-graph-wildfly`](https://hub.docker.com/r/hpehl/model-graph-wildfly/) (WildFly Nightly)
+- `hpehl/model-graph-wildfly:11.0.0.CR1`
 - `hpehl/model-graph-wildfly:10.1.0.Final`
 - `hpehl/model-graph-wildfly:9.0.2.Final`
 
@@ -23,6 +24,13 @@ The easiest way to get started is to use the docker compose scripts in the `comp
 The scripts in `compose/wf<n>` start the Nginx image and a Neo4j image with the model graph database of a specific WildFly version. 
 
 Please note that you can only use one of the `compose/wf<n>` scripts at a time. All of them use the standard ports http://localhost:7474 and bolt://localhost:7687.
+
+- WildFly Latest
+
+    ```bash
+    cd compose/wf-latest
+    docker-compose up
+    ```
 
 - WildFly 11
 
@@ -47,15 +55,19 @@ Please note that you can only use one of the `compose/wf<n>` scripts at a time. 
 
 ### All WildFly Versions
 
-There's also a docker compose script which starts three Neo4j instances with the model graph databases for WildFly 9, 10 and 11. This is especially useful if you want to compare resources between different WildFly versions.
+There's also a docker compose script which starts all Neo4j instances with the model graph databases for WildFly 9, 10, 11 and latest. This is especially useful if you want to compare resources between different WildFly versions.
 
 ```bash
 cd compose
 docker-compose up
 ```
 
-This starts three Neo4j instances using the following ports:
+This starts the Neo4j instances using the following ports:
 
+- WildFly Latest:  
+  http://localhost:7412  
+  bolt://localhost:7612 
+  
 - WildFly 11:  
   http://localhost:7411  
   bolt://localhost:7611 
