@@ -1,5 +1,5 @@
 FROM neo4j
-ARG GRAPH_DB=wildfly-11.0.0.CR1.tar.gz
+ARG GRAPH_DB
 
 LABEL maintainer="Harald Pehl <harald.pehl@gmail.com>"
 

@@ -18,37 +18,39 @@ Usage: model-graph-analyzer [-chV] [-n=<neo4j>] [-p=<wildFlyPassword>]
                             [-u=<wildFlyUsername>] [-w=<wildFly>] <resource>
 
 Reads the management model from a WildFly instance and stores it as a graph in
-a Neo4j database
+a Neo4j database.
 
 Parameters:
-      resource                the root resource to analyse.
+      resource                the root resource to analyse
 
 Options:
   -w, --wildfly=<wildFly>     WildFly instance as <server>[:<port>] with 9990
                                 as default port. Omit to connect to a local
                                 WildFly instance at localhost:9990.
   -u, --wildfly-user=<wildFlyUsername>
-                              WildFly username. Defaults to 'admin'.
+                              WildFly username
   -p, --wildfly-password=<wildFlyPassword>
-                              WildFly password. Defaults to 'admin'.
+                              WildFly password
   -n, --neo4j=<neo4j>         Neo4j database as <server>[:<port>] with 7687 as
                                 default port. Omit to connect to a local Neo4j
                                 database at localhost:7687.
   -s, --neo4j-user=<neo4jUsername>
-                              Neo4j username. Defaults to 'neo4j'.
+                              Neo4j username
   -t, --neo4j-password=<neo4jPassword>
-                              Neo4j password. Defaults to 'neo4j'.
+                              Neo4j password
   -c, --clean                 remove all indexes, nodes, relationships and
                                 properties before analysing the management
-                                model tree.
+                                model tree
   -V, --version               display version information and exit
   -h, --help                  display this help message and exit
 ```
 
-If everything runs locally using the default ports and credentials, you just need to run 
+If everything runs locally using the default ports this will analyse the complete resource tree
 
 ```bash
 java -jar model-graph-analyzer-0.2.0.jar /
+    --wildfly-user=admin --wildfly-password=admin \
+    --neo4j-user=neo4j -- neo4j-password=neo4j /
 ```
 
 This will populate the Neo4j instance with nodes, relations and properties of the specified resource (sub)tree. Please make sure the Neo4j instance is empty or use the `--clean` option to remove existing data. After the tool has finished, head to [http://localhost:7474/](http://localhost:7474/) and enter some [queries](https://github.com/hal/model-graph#queries). 

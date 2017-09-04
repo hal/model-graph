@@ -24,64 +24,15 @@
     <modelVersion>4.0.0</modelVersion>
 
     <parent>
-        <groupId>org.jboss</groupId>
-        <artifactId>jboss-parent</artifactId>
-        <version>23</version>
+        <groupId>org.jboss.hal</groupId>
+        <artifactId>model-graph-parent</artifactId>
+        <version>0.2.0</version>
     </parent>
 
-    <groupId>org.jboss.hal</groupId>
     <artifactId>model-graph-analyzer</artifactId>
-    <version>0.2.0</version>
     <name>Model Graph Analyzer</name>
     <description>Tool to analyze the management model of a WildFly standalone or domain instance</description>
-    <url>https://github.com/hal/model-graph</url>
     <packaging>jar</packaging>
-
-    <organization>
-        <name>JBoss, a division of Red Hat</name>
-        <url>http://www.jboss.org</url>
-    </organization>
-
-    <developers>
-        <developer>
-            <name>Harald Pehl</name>
-            <id>hpehl</id>
-            <email>hpehl@redhat.com</email>
-            <organization>Red Hat</organization>
-            <timezone>+1</timezone>
-        </developer>
-    </developers>
-
-    <licenses>
-        <license>
-            <name>Apache License 2.0</name>
-            <url>http://www.apache.org/licenses/LICENSE-2.0</url>
-            <distribution>repo</distribution>
-        </license>
-    </licenses>
-
-    <properties>
-        <!-- dependencies -->
-        <guava.version>23.0</guava.version>
-        <jboss.dmr.version>1.4.1.Final</jboss.dmr.version>
-        <junit.version>4.12</junit.version>
-        <neo4j.driver.version>1.4.3</neo4j.driver.version>
-        <picocli.version>1.0.1</picocli.version>
-        <slf4j.version>1.7.25</slf4j.version>
-        <wildfly.core.version>3.0.1.Final</wildfly.core.version>
-        <wildfly.9.version>9.0.2.Final</wildfly.9.version>
-        <wildfly.10.version>10.1.0.Final</wildfly.10.version>
-        <wildfly.11.version>11.0.0.CR1</wildfly.11.version>
-
-        <!-- plugins -->
-        <docker.maven.plugin>0.22.1</docker.maven.plugin>
-
-        <!-- settings -->
-        <maven.compiler.target>1.8</maven.compiler.target>
-        <maven.compiler.source>1.8</maven.compiler.source>
-        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
-    </properties>
 
     <dependencies>
         <dependency>
@@ -168,17 +119,4 @@
             </plugin>
         </plugins>
     </build>
-
-    <repositories>
-        <repository>
-            <id>jboss-nexus</id>
-            <url>http://repository.jboss.org/nexus/content/groups/public</url>
-            <snapshots>
-                <enabled>false</enabled>
-            </snapshots>
-            <releases>
-                <enabled>true</enabled>
-            </releases>
-        </repository>
-    </repositories>
 </project>

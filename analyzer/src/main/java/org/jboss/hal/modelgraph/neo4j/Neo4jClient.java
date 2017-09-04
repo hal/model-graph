@@ -3,6 +3,7 @@ package org.jboss.hal.modelgraph.neo4j;
 import java.io.IOException;
 
 import com.google.common.net.HostAndPort;
+import org.neo4j.driver.v1.AuthToken;
 import org.neo4j.driver.v1.AuthTokens;
 import org.neo4j.driver.v1.Driver;
 import org.neo4j.driver.v1.GraphDatabase;
@@ -23,7 +24,10 @@ public class Neo4jClient implements AutoCloseable {
     public Neo4jClient(final HostAndPort hostAndPort, final String username, final String password, final boolean clean)
             throws IOException {
         String uri = "bolt://" + hostAndPort;
-        driver = GraphDatabase.driver(uri, AuthTokens.basic(username, password));
+        AuthToken authToken = username == null && password == null
+                ? AuthTokens.none()
+                : AuthTokens.basic(username, password);
+        driver = GraphDatabase.driver(uri, authToken);
         webInterface = "http://" + hostAndPort.getHost() + ":7474/browser/";
         logger.info("Connected to Neo4j database at {}", hostAndPort);
         setup(clean);
