@@ -11,7 +11,6 @@ XPATH='string(//file[not(contains(@name, "-src"))]/content/@href)'
 log () {
   echo
   echo
-  echo
   echo "-------------------------------------------------------------------------------"
   echo "$1"
   echo "-------------------------------------------------------------------------------"
@@ -36,13 +35,17 @@ java -jar target/model-graph-analyzer-${VERSION}.jar -w localhost:${WILDFLY_PORT
 cd ${ROOT}
 mvn docker:stop
 
-log "Build and push hpehl/model-graph-wildfly:latest"
+log "Build hpehl/model-graph-wildfly:latest"
 cd target/data/databases
 rm -f ${ROOT}/../docker/neo4j/data/wildfly-latest.tar.gz
 tar -czf ${ROOT}/../docker/neo4j/data/wildfly-latest.tar.gz graph.db
 cd ${ROOT}/../docker/neo4j
 docker build --tag hpehl/model-graph-wildfly --build-arg GRAPH_DB=wildfly-latest.tar.gz .
-docker push hpehl/model-graph-wildfly
+
+if [  "$1" == "push" ]; then
+    log "Push hpehl/model-graph-wildfly:latest"
+    docker push hpehl/model-graph-wildfly
+fi
 cd ${ROOT}
 
 log "Done"
