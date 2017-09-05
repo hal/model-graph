@@ -2,7 +2,7 @@
 
 Docker images to run Neo4j with pre-populated databases containing the management model of WildFly 9, 10, 11 and latest using `standalone-full-ha.xml`. The following images are available:
 
-- [`hpehl/model-graph-wildfly`](https://hub.docker.com/r/hpehl/model-graph-wildfly/) (WildFly Nightly)
+- [`hpehl/model-graph-wildfly`](https://hub.docker.com/r/hpehl/model-graph-wildfly/) ([latest](https://ci.wildfly.org/viewType.html?buildTypeId=WF_Nightly) WildFly version)
 - `hpehl/model-graph-wildfly:11.0.0.CR1`
 - `hpehl/model-graph-wildfly:10.1.0.Final`
 - `hpehl/model-graph-wildfly:9.0.2.Final`
