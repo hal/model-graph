@@ -10,7 +10,11 @@ To analyse the management model tree you need a running WildFly and Neo4j instan
 CALL dbms.changePassword('neo4j')
 ```
 
-and refresh your browser. This makes it easier to use the default options when analysing the model tree. Anyway you can specify the WildFly and Neo4j instance using one of the command line options:
+and refresh your browser.
+
+## Usage
+
+The command line tool accepts the following options and parameters:
 
 ```
 Usage: model-graph-analyzer [-chV] [-n=<neo4j>] [-p=<wildFlyPassword>]
@@ -45,7 +49,7 @@ Options:
   -h, --help                  display this help message and exit
 ```
 
-If everything runs locally using the default ports this will analyse the complete resource tree
+If everything runs locally using the default ports, use the following command to analyses the complete resource tree:
 
 ```bash
 java -jar model-graph-analyzer-0.2.0.jar /
