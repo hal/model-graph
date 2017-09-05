@@ -4,7 +4,7 @@ services:
     image: "hpehl/model-graph-nginx"
     ports:
       - "8080:80"
-  wf11:
+  wf-latest:
     image: "hpehl/model-graph-wildfly"
     ports:
       - "7474:7474"

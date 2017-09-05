@@ -62,15 +62,15 @@ cd compose
 docker-compose up
 ```
 
-This starts the Neo4j instances using the following ports:
+This starts Neo4j instances with the following ports:
 
 - WildFly Latest:  
-  http://localhost:7412  
-  bolt://localhost:7612 
+  http://localhost:7474  
+  bolt://localhost:7687
   
 - WildFly 11:  
   http://localhost:7411  
-  bolt://localhost:7611 
+  bolt://localhost:7611
   
 - WildFly 10:  
   http://localhost:7410  
