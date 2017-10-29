@@ -10,7 +10,7 @@ services:
       - "7474:7474"
       - "7687:7687"
   wf11:
-    image: "hpehl/model-graph-wildfly:11.0.0.CR1"
+    image: "hpehl/model-graph-wildfly:11.0.0.Final"
     ports:
       - "7411:7474"
       - "7611:7687"

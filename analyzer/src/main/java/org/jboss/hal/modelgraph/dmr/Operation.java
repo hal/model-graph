@@ -53,7 +53,7 @@ public class Operation extends ModelNode {
     private final ModelNode parameter;
 
 
-    Operation(final String name, final ResourceAddress address, final ModelNode parameter) {
+    Operation(String name, ResourceAddress address, ModelNode parameter) {
         this.name = name;
         this.address = address;
         this.parameter = parameter;

@@ -11,7 +11,7 @@ public class Cypher {
     private final StringBuilder builder;
     private final Map<String, Value> parameters;
 
-    public Cypher(final String cypher) {
+    public Cypher(String cypher) {
         builder = new StringBuilder(cypher);
         parameters = new HashMap<>();
     }
@@ -21,16 +21,16 @@ public class Cypher {
         return this;
     }
 
-    public Cypher append(final String cypher) {
+    public Cypher append(String cypher) {
         builder.append(cypher);
         return this;
     }
 
-    public <T> Cypher append(final String name, T value) {
+    public <T> Cypher append(String name, T value) {
         return append(name, name, value);
     }
 
-    public <T> Cypher append(final String attribute, final String placeholder, T value) {
+    public <T> Cypher append(String attribute, String placeholder, T value) {
         String safePlaceHolder = placeholder.replace('-', '_');
         if (attribute.contains("-")) {
             builder.append("`");

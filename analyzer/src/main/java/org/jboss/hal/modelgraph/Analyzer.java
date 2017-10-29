@@ -59,14 +59,14 @@ class Analyzer {
     private final Stats stats;
     private final Set<String> missingGlobalOperations;
 
-    Analyzer(final WildFlyClient wc, final Neo4jClient nc) {
+    Analyzer(WildFlyClient wc, Neo4jClient nc) {
         this.wc = wc;
         this.nc = nc;
         this.stats = new Stats();
         this.missingGlobalOperations = new HashSet<>(GLOBAL_OPERATIONS);
     }
 
-    void start(final String resource) {
+    void start(String resource) {
         version();
         parse(ResourceAddress.of(resource), null);
     }

@@ -21,7 +21,7 @@ public class Neo4jClient implements AutoCloseable {
     private final Driver driver;
     private final String webInterface;
 
-    public Neo4jClient(final HostAndPort hostAndPort, final String username, final String password, final boolean clean)
+    public Neo4jClient(HostAndPort hostAndPort, String username, String password, boolean clean)
             throws IOException {
         String uri = "bolt://" + hostAndPort;
         AuthToken authToken = username == null && password == null

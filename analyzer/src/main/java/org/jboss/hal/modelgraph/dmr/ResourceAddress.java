@@ -26,7 +26,7 @@ import org.jboss.dmr.Property;
 /** Represents a fully qualified DMR address ready to be put into a DMR operation. */
 public class ResourceAddress extends ModelNode {
 
-    public static ResourceAddress of(final String address) {
+    public static ResourceAddress of(String address) {
         if (!Strings.isNullOrEmpty(address) && !"/".equals(address)) {
             ModelNode node = new ModelNode();
             String normalized = address.startsWith("/") ? address.substring(1) : address;
@@ -45,7 +45,7 @@ public class ResourceAddress extends ModelNode {
         set(address);
     }
 
-    public ResourceAddress add(final String segment) {
+    public ResourceAddress add(String segment) {
         ResourceAddress address = new ResourceAddress(this);
         if (segment != null) {
             List<String> parts = Splitter.on('=').limit(2).splitToList(segment);
