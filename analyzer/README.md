@@ -54,7 +54,7 @@ If everything runs locally using the default ports, use the following command to
 ```bash
 java -jar model-graph-analyzer-0.2.0.jar /
     --wildfly-user=admin --wildfly-password=admin \
-    --neo4j-user=neo4j -- neo4j-password=neo4j /
+    --neo4j-user=neo4j --neo4j-password=neo4j /
 ```
 
 This will populate the Neo4j instance with nodes, relations and properties of the specified resource (sub)tree. Please make sure the Neo4j instance is empty or use the `--clean` option to remove existing data. After the tool has finished, head to [http://localhost:7474/](http://localhost:7474/) and enter some [queries](https://github.com/hal/model-graph#queries). 
