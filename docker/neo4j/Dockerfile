@@ -29,7 +29,7 @@ COPY docker-entrypoint.sh /docker-entrypoint.sh
 COPY conf/neo4j.conf /var/lib/neo4j/conf/
 ADD data/$GRAPH_DB /data/databases/
 
-RUN adduser -D -G root -g "Neo4J" neo4j \
+RUN adduser -u 1001 -G root -D -g "Neo4J" neo4j \
     && chown neo4j:root /docker-entrypoint.sh \
     && chmod u+rx,g+rx /docker-entrypoint.sh \
     && chown -R neo4j:root /var/lib/neo4j \
@@ -37,7 +37,7 @@ RUN adduser -D -G root -g "Neo4J" neo4j \
     && chown -R neo4j:root /data/databases/graph.db \
     && chmod -R u+w,g+w /data/databases/graph.db
 
-USER neo4j
+USER 1001
 
 EXPOSE 7474 7473 7687
 
