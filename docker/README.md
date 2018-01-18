@@ -12,7 +12,7 @@ All Neo4j images use `neo4j` as username & password.
 Furthermore there's a Nginx based docker image called [`hpehl/model-graph-nginx`](https://hub.docker.com/r/hpehl/model-graph-nginx/). This image provides documentation about the model-graph database, nodes, relations and sample queries. The Neo4j images are configured to show the documentation in the Neo4j browser. When running the Nginx image make sure to use 8080 as the host port:
 
 ```bash
-docker run --publish 8080:80 hpehl/model-graph-nginx
+docker run --publish 8080:8080 hpehl/model-graph-nginx
 ``` 
 
 ## Getting Started
