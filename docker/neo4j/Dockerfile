@@ -8,7 +8,8 @@ RUN apk add --no-cache --quiet \
 
 ENV NEO4J_SHA256=0e5c6492cd274edf06c5f10d2b64711bd559aaff37c646e03bfa65e613994174 \
     NEO4J_TARBALL=neo4j-community-3.3.1-unix.tar.gz \
-    NEO4J_EDITION=community
+    NEO4J_EDITION=community \
+    NEO4J_browser_post__connect__cmd="play http://localhost:8080/model-graph.html"
 ARG GRAPH_DB
 ARG NEO4J_URI=http://dist.neo4j.org/neo4j-community-3.3.1-unix.tar.gz
 
