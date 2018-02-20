@@ -9,10 +9,11 @@ RUN apk add --no-cache --quiet \
 ARG GRAPH_DB
 ARG NEO4J_URI=http://dist.neo4j.org/neo4j-community-3.3.1-unix.tar.gz
 ARG WILDFLY_VERSION
+
 ENV NEO4J_SHA256=0e5c6492cd274edf06c5f10d2b64711bd559aaff37c646e03bfa65e613994174 \
     NEO4J_TARBALL=neo4j-community-3.3.1-unix.tar.gz \
     NEO4J_EDITION=community \
-    NEO4J_browser_post__connect__cmd="play https://cdn.rawgit.com/hal/model-graph/6b48a35f/docker/nginx/html/model-graph-$WILDFLY_VERSION.html"
+    NEO4J_browser_post__connect__cmd="play https://cdn.rawgit.com/hal/model-graph/a8d07675/docker/neo4j/docs/model-graph.html https://cdn.rawgit.com/hal/model-graph/6b48a35f/docker/nginx/html/model-graph-${WILDFLY_VERSION}.html"
 
 RUN curl --fail --silent --show-error --location --remote-name ${NEO4J_URI} \
     && echo "${NEO4J_SHA256}  ${NEO4J_TARBALL}" | sha256sum -csw - \
@@ -29,7 +30,7 @@ WORKDIR /var/lib/neo4j
 
 COPY docker-entrypoint.sh /docker-entrypoint.sh
 COPY conf/neo4j.conf /var/lib/neo4j/conf/
-ADD data/$GRAPH_DB /data/databases/
+ADD data/${GRAPH_DB} /data/databases/
 
 RUN adduser -u 1001 -G root -D -g "Neo4J" neo4j \
     && chown neo4j:root /docker-entrypoint.sh \
