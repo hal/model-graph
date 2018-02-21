@@ -7,13 +7,13 @@ RUN apk add --no-cache --quiet \
     curl
 
 ARG GRAPH_DB
-ARG NEO4J_URI=http://dist.neo4j.org/neo4j-community-3.3.1-unix.tar.gz
-ARG WILDFLY_VERSION
+ARG NEO4J_URI=http://dist.neo4j.org/neo4j-community-3.3.3-unix.tar.gz
+ARG PLAY_URL
 
-ENV NEO4J_SHA256=0e5c6492cd274edf06c5f10d2b64711bd559aaff37c646e03bfa65e613994174 \
-    NEO4J_TARBALL=neo4j-community-3.3.1-unix.tar.gz \
+ENV NEO4J_SHA256=a57be049906cc871b59d7a8283d265485b2c31de47b208ef18636901859232f9 \
+    NEO4J_TARBALL=neo4j-community-3.3.3-unix.tar.gz \
     NEO4J_EDITION=community \
-    NEO4J_browser_post__connect__cmd="play https://cdn.rawgit.com/hal/model-graph/a8d07675/docker/neo4j/docs/model-graph.html https://cdn.rawgit.com/hal/model-graph/6b48a35f/docker/nginx/html/model-graph-${WILDFLY_VERSION}.html"
+    NEO4J_browser_post__connect__cmd="play ${PLAY_URL}"
 
 RUN curl --fail --silent --show-error --location --remote-name ${NEO4J_URI} \
     && echo "${NEO4J_SHA256}  ${NEO4J_TARBALL}" | sha256sum -csw - \

@@ -1,9 +1,5 @@
 version: "3"
 services:
-  nginx:
-    image: "hpehl/model-graph-nginx"
-    ports:
-      - "8080:8080"
   wf9:
     image: "hpehl/model-graph-wildfly:9.0.2.Final"
     ports:
