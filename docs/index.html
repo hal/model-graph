@@ -1,0 +1,74 @@
+<!doctype html>
+<html class="no-js" lang="">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <title>WildFly Model Graph</title>
+    <meta name="description" content="WildFly Model Graph">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <link rel="manifest" href="site.webmanifest">
+    <link rel="apple-touch-icon" href="icon.png">
+    <!-- Place favicon.ico in the root directory -->
+
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <link rel="stylesheet" href="http://overpass-30e2.kxcdn.com/overpass.css">
+    <link rel="stylesheet" href="css/main.css">
+</head>
+<body>
+<a target="_blank" href="https://github.com/hal/model-graph"><img style="position: absolute; top: 0; right: 0; border: 0;" src="https://camo.githubusercontent.com/38ef81f8aca64bb9a64448d0d70f1308ef5341ab/68747470733a2f2f73332e616d617a6f6e6177732e636f6d2f6769746875622f726962626f6e732f666f726b6d655f72696768745f6461726b626c75655f3132313632312e706e67" alt="Fork me on GitHub" data-canonical-src="https://s3.amazonaws.com/github/ribbons/forkme_right_darkblue_121621.png"></a>
+
+<div class="jumbotron">
+    <div class="container">
+        <h1 class="display-4">WildFly Model Graph</h1>
+        <p class="lead">Analyse the WildFly management model using a graph database.</p>
+    </div>
+</div>
+<div class="container">
+    <div class="row">
+        <div class="col">
+            <p>This site provides links to <a target="_blank" href="https://neo4j.com/">Neo4J</a> databases containing the management model of <a target="_blank" href="https://www.wildfly.org">WildFly</a> 9, 10 and 11. The links below open the <a target="_blank" href="https://neo4j.com/developer/guide-neo4j-browser/">Neo4J browser</a> for the given WildFly version. For more information about WildFly Model Graph, please see the project's <a target="_blank" href="https://github.com/hal/model-graph/blob/master/README.md">README</a>.</p>
+            <p><strong>Please note:</strong><br>Per default the Neo4J browser suggests to connect to the same host it was loaded from. The databases below use a different host (see below). Pay extra attention to specify port 80 as host (otherwise Neo4J falls back to the default port 7687). If the connection form doesn't show up automatically, use the <code>:server connect</code> command to trigger the connection form. Use <code>neo4j</code> as username and password.</p>
+        </div>
+    </div>
+    <div class="row mt-3">
+        <div class="col">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">WildFly 11</h5>
+                    <p class="card-text">Use this URL to connect:<br/><code>bolt://model-graph-11-bolt-model-graph.6923.rh-us-east-1.openshiftapps.com:80</code></p>
+                    <a target="neo4j-browser-11" href="http://model-graph-11-browser-model-graph.6923.rh-us-east-1.openshiftapps.com/browser/" class="card-link">Neo4J Browser</a>
+                </div>
+            </div>
+        </div>
+        <div class="col">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">WildFly 10</h5>
+                    <p class="card-text">Use this URL to connect:<br/><code>bolt://model-graph-10-bolt-model-graph.6923.rh-us-east-1.openshiftapps.com:80</code></p>
+                    <a target="neo4j-browser-11" href="http://model-graph-10-browser-model-graph.6923.rh-us-east-1.openshiftapps.com/browser/" class="card-link">Neo4J Browser</a>
+                </div>
+            </div>
+        </div>
+        <div class="col">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">WildFly 9</h5>
+                    <p class="card-text">Use this URL to connect:<br/><code>bolt://model-graph-9-bolt-model-graph.6923.rh-us-east-1.openshiftapps.com:80</code></p>
+                    <a target="neo4j-browser-11" href="http://model-graph-9-browser-model-graph.6923.rh-us-east-1.openshiftapps.com/browser/" class="card-link">Neo4J Browser</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<nav class="navbar navbar-dark bg-dark fixed-bottom justify-content-around">
+    <a href="https://www.openshift.com/" title="Powered by OpenShift Online">
+        <img alt="Powered by OpenShift Online" src="https://www.openshift.com/images/logos/powered_by_openshift_reverse.png">
+    </a>
+</nav>
+
+<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+</body>
+</html>
