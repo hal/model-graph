@@ -31,12 +31,19 @@
             <p>This site provides links to
                 <a target="_blank" href="https://neo4j.com/">Neo4J</a> databases containing the management model of
                 <a target="_blank" href="http://wildfly.org/">WildFly</a> 9, 10 and 11. The links below open the
-                <a target="_blank" href="https://neo4j.com/developer/guide-neo4j-browser/">Neo4J browser</a> for the given WildFly version. For more information about WildFly Model Graph, please see the project's
-                <a target="_blank" href="https://github.com/hal/model-graph/blob/master/README.md">README</a>.</p>
-            <p>
-                <strong>Please note:</strong><br>Per default the Neo4J browser suggests a URL which is based on the host it was loaded from. However the model graph databases use different URLs (see below). Pay extra attention to add port 80 (otherwise Neo4J falls back to the default port 7687).<br>If the connection form doesn't show up automatically, use
-                <code>:server connect</code> to trigger it. You don't need to provide a username and password.
+                <a target="_blank" href="https://neo4j.com/developer/guide-neo4j-browser/">Neo4J browser</a> for the given WildFly version.
             </p>
+            <h5>How To Connect</h5>
+            <p>By default the Neo4J tries to connect to an URL based on the host it was loaded from. However the model graph databases use different URLs. Follow these steps to connect to the database:</p>
+            <ol>
+                <li>Use <code>:server disconnect</code> to cancel the connection with the default URL</li>
+                <li>Use <code>:server connect</code> to bring up the connection form</li>
+                <li>Paste the bolt URL from below in the host field (pay extra attention to include port 80)</li>
+                <li>Leave username and password empty</li>
+                <li>Hit connect</li>
+            </ol>
+            <p>Once connected the Neo4J browser will show an introduction to the model graph database, describe the main nodes and provide sample queries. For more information, please see the project's
+                <a target="_blank" href="https://github.com/hal/model-graph/blob/master/README.md">README</a>.</p>
         </div>
     </div>
     <div class="row mt-3">
@@ -44,7 +51,8 @@
             <div class="card">
                 <div class="card-body">
                     <h5 class="card-title">WildFly 11</h5>
-                    <p class="card-text"><code>bolt://model-graph-11-bolt-model-graph.6923.rh-us-east-1.openshiftapps.com:80</code>
+                    <p class="card-text">
+                        <code>bolt://model-graph-11-bolt-model-graph.6923.rh-us-east-1.openshiftapps.com:80</code>
                     </p>
                     <a target="neo4j-browser-11" href="http://model-graph-11-browser-model-graph.6923.rh-us-east-1.openshiftapps.com/browser/" class="card-link">Neo4J Browser</a>
                 </div>
@@ -54,7 +62,8 @@
             <div class="card">
                 <div class="card-body">
                     <h5 class="card-title">WildFly 10</h5>
-                    <p class="card-text"><code>bolt://model-graph-10-bolt-model-graph.6923.rh-us-east-1.openshiftapps.com:80</code>
+                    <p class="card-text">
+                        <code>bolt://model-graph-10-bolt-model-graph.6923.rh-us-east-1.openshiftapps.com:80</code>
                     </p>
                     <a target="neo4j-browser-10" href="http://model-graph-10-browser-model-graph.6923.rh-us-east-1.openshiftapps.com/browser/" class="card-link">Neo4J Browser</a>
                 </div>
@@ -64,7 +73,8 @@
             <div class="card">
                 <div class="card-body">
                     <h5 class="card-title">WildFly 9</h5>
-                    <p class="card-text"><code>bolt://model-graph-9-bolt-model-graph.6923.rh-us-east-1.openshiftapps.com:80</code>
+                    <p class="card-text">
+                        <code>bolt://model-graph-9-bolt-model-graph.6923.rh-us-east-1.openshiftapps.com:80</code>
                     </p>
                     <a target="neo4j-browser-9" href="http://model-graph-9-browser-model-graph.6923.rh-us-east-1.openshiftapps.com/browser/" class="card-link">Neo4J Browser</a>
                 </div>
