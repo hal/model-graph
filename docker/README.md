@@ -6,7 +6,7 @@ Docker images to run Neo4j with pre-populated databases containing the managemen
 - `hpehl/model-graph-wildfly:10.1.0.Final`
 - `hpehl/model-graph-wildfly:9.0.2.Final`
 
-All Neo4j images use `neo4j` as username & password.
+All Neo4j databases are read-only and don't require authentication.
 
 ## Getting Started
 
