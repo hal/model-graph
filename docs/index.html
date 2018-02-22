@@ -7,9 +7,8 @@
     <meta name="description" content="WildFly Model Graph">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <link rel="manifest" href="site.webmanifest">
+    <link rel="shortcut icon" href="icon.png">
     <link rel="apple-touch-icon" href="icon.png">
-    <!-- Place favicon.ico in the root directory -->
 
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
     <link rel="stylesheet" href="https://overpass-30e2.kxcdn.com/overpass.css">
@@ -30,16 +29,16 @@
         <div class="col">
             <p>This site provides links to
                 <a target="_blank" href="https://neo4j.com/">Neo4J</a> databases containing the management model of
-                <a target="_blank" href="http://wildfly.org/">WildFly</a> 9, 10 and 11. The links below open the
+                <a target="_blank" href="http://wildfly.org/">WildFly</a> 9, 10 and 11. The links at the bottom open the
                 <a target="_blank" href="https://neo4j.com/developer/guide-neo4j-browser/">Neo4J browser</a> for the given WildFly version.
             </p>
-            <h5>How To Connect</h5>
-            <p>By default the Neo4J tries to connect to an URL based on the host it was loaded from. However the model graph databases use different URLs. Follow these steps to connect to the database:</p>
+            <h5>How to Connect</h5>
+            <p>By default the Neo4J browser tries to connect to an URL based on the host it was loaded from. However the model graph databases use different URLs. Follow these steps to connect to the database:</p>
             <ol>
                 <li>Use <code>:server disconnect</code> to cancel the connection with the default URL</li>
                 <li>Use <code>:server connect</code> to bring up the connection form</li>
-                <li>Paste the bolt URL from below in the host field (pay extra attention to include port 80)</li>
-                <li>Leave username and password empty</li>
+                <li>Paste the <code>bolt://</code> URL in the host field (pay extra attention to include port 80)</li>
+                <li>Leave username and password empty (the databases are read-only and don't require authentication)</li>
                 <li>Hit connect</li>
             </ol>
             <p>Once connected the Neo4J browser will show an introduction to the model graph database, describe the main nodes and provide sample queries. For more information, please see the project's
@@ -51,9 +50,12 @@
             <div class="card">
                 <div class="card-body">
                     <h5 class="card-title">WildFly 11</h5>
-                    <p class="card-text">
-                        <code>bolt://model-graph-11-bolt-model-graph.6923.rh-us-east-1.openshiftapps.com:80</code>
-                    </p>
+                    <figure class="snippet p-3 bg-light">
+                        <button class="btn clipboard" data-clipboard-target="#bolt-11" data-toggle="tooltip" data-placement="top" title="Copy to clipboard">
+                            <img class="clippy" width="13" src="clippy.svg" alt="">
+                        </button>
+                        <code id="bolt-11">bolt://model-graph-11-bolt-model-graph.6923.rh-us-east-1.openshiftapps.com:80</code>
+                    </figure>
                     <a target="neo4j-browser-11" href="http://model-graph-11-browser-model-graph.6923.rh-us-east-1.openshiftapps.com/browser/" class="card-link">Neo4J Browser</a>
                 </div>
             </div>
@@ -62,9 +64,12 @@
             <div class="card">
                 <div class="card-body">
                     <h5 class="card-title">WildFly 10</h5>
-                    <p class="card-text">
-                        <code>bolt://model-graph-10-bolt-model-graph.6923.rh-us-east-1.openshiftapps.com:80</code>
-                    </p>
+                    <figure class="snippet p-3 bg-light">
+                        <button class="btn clipboard" data-clipboard-target="#bolt-10" data-toggle="tooltip" data-placement="top" title="Copy to clipboard">
+                            <img class="clippy" width="13" src="clippy.svg" alt="">
+                        </button>
+                        <code id="bolt-10">bolt://model-graph-10-bolt-model-graph.6923.rh-us-east-1.openshiftapps.com:80</code>
+                    </figure>
                     <a target="neo4j-browser-10" href="http://model-graph-10-browser-model-graph.6923.rh-us-east-1.openshiftapps.com/browser/" class="card-link">Neo4J Browser</a>
                 </div>
             </div>
@@ -73,9 +78,12 @@
             <div class="card">
                 <div class="card-body">
                     <h5 class="card-title">WildFly 9</h5>
-                    <p class="card-text">
-                        <code>bolt://model-graph-9-bolt-model-graph.6923.rh-us-east-1.openshiftapps.com:80</code>
-                    </p>
+                    <figure class="snippet p-3 bg-light">
+                        <button class="btn clipboard" data-clipboard-target="#bolt-9" data-toggle="tooltip" data-placement="top" title="Copy to clipboard">
+                            <img class="clippy" width="13" src="clippy.svg" alt="">
+                        </button>
+                        <code id="bolt-9">bolt://model-graph-9-bolt-model-graph.6923.rh-us-east-1.openshiftapps.com:80</code>
+                    </figure>
                     <a target="neo4j-browser-9" href="http://model-graph-9-browser-model-graph.6923.rh-us-east-1.openshiftapps.com/browser/" class="card-link">Neo4J Browser</a>
                 </div>
             </div>
@@ -91,5 +99,33 @@
 <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/1.7.1/clipboard.min.js"></script>
+<script>
+    $(function () {
+        function setTooltip(btn, message) {
+            $(btn).tooltip('hide').attr('data-original-title', message).tooltip('show');
+        }
+
+        function hideTooltip(btn) {
+            setTimeout(function () {
+                $(btn).tooltip('hide').attr('data-original-title', 'Copy to clipboard');
+            }, 1000);
+        }
+
+        $('[data-toggle="tooltip"]').tooltip();
+
+        var clipboard = new Clipboard('.clipboard');
+        clipboard.on('success', function (e) {
+            e.clearSelection();
+            setTooltip(e.trigger, 'Copied!');
+            hideTooltip(e.trigger);
+        });
+
+        clipboard.on('error', function (e) {
+            setTooltip(e.trigger, 'Failed!');
+            hideTooltip(e.trigger);
+        });
+    })
+</script>
 </body>
 </html>

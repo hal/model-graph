@@ -2,3 +2,17 @@ body {
     font-family: 'Overpass', sans-serif;
     padding-bottom: 84px;
 }
+
+.snippet .clipboard {
+    background: transparent;
+    opacity: 0;
+    padding: 0.1rem .5rem;
+    position: absolute;
+    right: 1.2rem;
+    transition: opacity .3s ease-in-out;
+    top: 3.5rem;
+}
+
+.snippet:hover .clipboard, .snippet .clipboard:focus {
+    opacity: 1;
+}
