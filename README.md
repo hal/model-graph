@@ -10,7 +10,7 @@ This repository contains
 
 This graph is used to store the management model:
 
-![Model Graph](docker/neo4j/docs/model-graph.png)
+![Model Graph](docs/model-graph.png)
 
 There are six main nodes in the database:
 
