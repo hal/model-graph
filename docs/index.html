@@ -40,8 +40,8 @@
     <div class="row">
         <div class="col">
             <p>This site provides links to
-                <a target="_blank" href="https://neo4j.com/">Neo4J</a> databases containing the management model of
-                <a target="_blank" href="http://wildfly.org/">WildFly</a> 9, 10 and 11. The links at the bottom open the
+                <a target="_blank" href="https://neo4j.com/">Neo4J</a> databases containing the management model of the last three
+                <a target="_blank" href="http://wildfly.org/">WildFly</a> versions. The links at the bottom open the
                 <a target="_blank" href="https://neo4j.com/developer/guide-neo4j-browser/">Neo4J browser</a> for the given WildFly version.
             </p>
             <h5>How to Connect</h5>
@@ -57,50 +57,7 @@
                 <a target="_blank" href="https://github.com/hal/model-graph/blob/master/README.md">README</a>.</p>
         </div>
     </div>
-    <div class="row mt-3">
-        <div class="col">
-            <div class="card">
-                <div class="card-body">
-                    <h5 class="card-title">WildFly 11</h5>
-                    <figure class="snippet p-3 bg-light">
-                        <button class="btn clipboard" data-clipboard-target="#bolt-11" data-toggle="tooltip" data-placement="top" title="Copy to clipboard">
-                            <img width="13" src="clippy.svg" alt="">
-                        </button>
-                        <code id="bolt-11">bolt://model-graph-11-bolt-model-graph.6923.rh-us-east-1.openshiftapps.com:80</code>
-                    </figure>
-                    <a target="neo4j-browser-11" href="http://model-graph-11-browser-model-graph.6923.rh-us-east-1.openshiftapps.com/browser/" class="card-link">Neo4J Browser</a>
-                </div>
-            </div>
-        </div>
-        <div class="col">
-            <div class="card">
-                <div class="card-body">
-                    <h5 class="card-title">WildFly 10</h5>
-                    <figure class="snippet p-3 bg-light">
-                        <button class="btn clipboard" data-clipboard-target="#bolt-10" data-toggle="tooltip" data-placement="top" title="Copy to clipboard">
-                            <img width="13" src="clippy.svg" alt="">
-                        </button>
-                        <code id="bolt-10">bolt://model-graph-10-bolt-model-graph.6923.rh-us-east-1.openshiftapps.com:80</code>
-                    </figure>
-                    <a target="neo4j-browser-10" href="http://model-graph-10-browser-model-graph.6923.rh-us-east-1.openshiftapps.com/browser/" class="card-link">Neo4J Browser</a>
-                </div>
-            </div>
-        </div>
-        <div class="col">
-            <div class="card">
-                <div class="card-body">
-                    <h5 class="card-title">WildFly 9</h5>
-                    <figure class="snippet p-3 bg-light">
-                        <button class="btn clipboard" data-clipboard-target="#bolt-9" data-toggle="tooltip" data-placement="top" title="Copy to clipboard">
-                            <img width="13" src="clippy.svg" alt="">
-                        </button>
-                        <code id="bolt-9">bolt://model-graph-9-bolt-model-graph.6923.rh-us-east-1.openshiftapps.com:80</code>
-                    </figure>
-                    <a target="neo4j-browser-9" href="http://model-graph-9-browser-model-graph.6923.rh-us-east-1.openshiftapps.com/browser/" class="card-link">Neo4J Browser</a>
-                </div>
-            </div>
-        </div>
-    </div>
+    <div id="wildfly-cards" class="row mt-3"></div>
 </div>
 <nav class="navbar navbar-dark bg-dark fixed-bottom justify-content-around">
     <a href="https://www.openshift.com/" title="Powered by OpenShift Online">
@@ -112,16 +69,12 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/1.7.1/clipboard.min.js"></script>
+<script src="script/main.js"></script>
 <script>
     $(function () {
-        function setTooltip(btn, message) {
-            $(btn).tooltip('hide').attr('data-original-title', message).tooltip('show');
-        }
-
-        function hideTooltip(btn) {
-            setTimeout(function () {
-                $(btn).tooltip('hide').attr('data-original-title', 'Copy to clipboard');
-            }, 1000);
+        var wildflyVersions = [11, 10, 9];
+        for (var i = 0; i < wildflyVersions.length; i++) {
+            wildFlyCard(wildflyVersions[i]);
         }
 
         $('[data-toggle="tooltip"]').tooltip();
