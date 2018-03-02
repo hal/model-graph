@@ -68,9 +68,6 @@
         <picocli.version>1.0.1</picocli.version>
         <slf4j.version>1.7.25</slf4j.version>
         <wildfly.core.version>3.0.1.Final</wildfly.core.version>
-        <wildfly.9.version>9.0.2.Final</wildfly.9.version>
-        <wildfly.10.version>10.1.0.Final</wildfly.10.version>
-        <wildfly.11.version>11.0.0.Final</wildfly.11.version>
 
         <!-- plugins -->
         <docker.maven.plugin>0.22.1</docker.maven.plugin>

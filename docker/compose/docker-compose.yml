@@ -1,5 +1,10 @@
 version: "3"
 services:
+  wf12:
+    image: "hpehl/model-graph-wildfly:12.0.0.Final"
+    ports:
+      - "7412:7474"
+      - "7612:7687"
   wf11:
     image: "hpehl/model-graph-wildfly:11.0.0.Final"
     ports:
@@ -10,8 +15,3 @@ services:
     ports:
       - "7410:7474"
       - "7610:7687"
-  wf9:
-    image: "hpehl/model-graph-wildfly:9.0.2.Final"
-    ports:
-      - "7409:7474"
-      - "7609:7687"
