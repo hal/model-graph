@@ -1,7 +1,0 @@
-version: "3"
-services:
-  wf10:
-    image: "hpehl/model-graph-wildfly:10.1.0.Final"
-    ports:
-      - "7474:7474"
-      - "7687:7687"

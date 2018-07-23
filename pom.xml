@@ -26,7 +26,7 @@
     <parent>
         <groupId>org.jboss</groupId>
         <artifactId>jboss-parent</artifactId>
-        <version>23</version>
+        <version>28</version>
     </parent>
 
     <groupId>org.jboss.hal</groupId>
@@ -61,35 +61,20 @@
 
     <properties>
         <!-- dependencies -->
-        <guava.version>23.0</guava.version>
-        <jboss.dmr.version>1.4.1.Final</jboss.dmr.version>
+        <guava.version>23.6.1-jre</guava.version>
+        <jboss.dmr.version>1.5.0.Final</jboss.dmr.version>
         <junit.version>4.12</junit.version>
-        <neo4j.driver.version>1.4.3</neo4j.driver.version>
-        <picocli.version>1.0.1</picocli.version>
+        <neo4j.driver.version>1.6.2</neo4j.driver.version>
+        <picocli.version>3.3.0</picocli.version>
         <slf4j.version>1.7.25</slf4j.version>
-        <wildfly.core.version>3.0.1.Final</wildfly.core.version>
-
-        <!-- plugins -->
-        <docker.maven.plugin>0.22.1</docker.maven.plugin>
+        <wildfly.core.version>5.0.0.Final</wildfly.core.version>
 
         <!-- settings -->
-        <maven.compiler.target>1.8</maven.compiler.target>
-        <maven.compiler.source>1.8</maven.compiler.source>
+        <maven.compiler.target>1.10</maven.compiler.target>
+        <maven.compiler.source>1.10</maven.compiler.source>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
     </properties>
-
-    <build>
-        <pluginManagement>
-            <plugins>
-                <plugin>
-                    <groupId>io.fabric8</groupId>
-                    <artifactId>docker-maven-plugin</artifactId>
-                    <version>${docker.maven.plugin}</version>
-                </plugin>
-            </plugins>
-        </pluginManagement>
-    </build>
 
     <repositories>
         <repository>
