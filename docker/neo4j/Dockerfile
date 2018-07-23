@@ -1,4 +1,4 @@
-FROM neo4j:latest
+FROM neo4j:3.4.4
 
 LABEL maintainer="Harald Pehl <harald.pehl@gmail.com>"
 
