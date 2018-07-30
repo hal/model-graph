@@ -3,7 +3,7 @@
 Docker images to run Neo4j with pre-populated databases containing the management model of the last three WildFly versions using `standalone-full-ha.xml`. The following images are available:
 
 - `hpehl/model-graph-wildfly:13.0.0.Final`
-- `hpehl/model-graph-wildfly:13.0.0.Final`
+- `hpehl/model-graph-wildfly:12.0.0.Final`
 - `hpehl/model-graph-wildfly:11.0.0.Final`
 
 All Neo4j databases are read-only and don't require authentication.
