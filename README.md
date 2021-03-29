@@ -1,3 +1,9 @@
+**:package: Project no longer maintained** 
+
+See [model-graph-tools](https://github.com/model-graph-tools) for updates.
+
+---
+
 # WildFly Model Graph
 
 This repository contains 
